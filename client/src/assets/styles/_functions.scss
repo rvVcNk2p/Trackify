@@ -1,0 +1,7 @@
+@use 'sass:math';
+
+$ui__rem: 16 !default;
+
+@function rem($val, $base: $ui__rem) {
+  @return math.div($val, $base) * 1rem;
+}

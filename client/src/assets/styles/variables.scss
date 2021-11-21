@@ -1,0 +1,29 @@
+@import 'functions';
+$global__font-family: 'Poppins', sans-serif !default;
+
+$global__color--white: #fff !default;
+$global__color--grey: #edf2f4 !default;
+$global__color--grey2: #e4e9eb !default;
+$global__color--grey3: #b5b7b8 !default;
+$global__color--grey_800: #121212 !default;
+$global__color--grey_900: #1f1f1f !default;
+$global__color--black: #000 !default;
+
+// $global__color--red: #ef476f !default;
+$global__color--red2: #f70776 !default;
+// $global__color--yellow: #ffd166 !default;
+// $global__color--green_lighter: #214b44 !default;
+// $global__color--green: #264e49 !default;
+$global__color--blue: #073b4c !default;
+
+$global__radius--small: 6px !default;
+$global__radius--medium: $global__radius--small * 2 !default;
+$global__radius--big: $global__radius--small * 4 !default;
+
+$global__breakpoint--mobile: 880px !default;
+$global__breakpoint--max-width: 1180px !default;
+
+$global__anim-speed--fast: 100ms !default;
+$global__anim-speed--medium: 400ms !default;
+
+

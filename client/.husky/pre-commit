@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run linter
+yarn lint-staged
+# Run style linter, fix if possible
+yarn stylelint --fix "**/*.vue"
+yarn stylelint --fix "**/*.scss"
+# Run code beautifier
+git add .
