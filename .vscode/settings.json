@@ -1,0 +1,20 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "eslint.format.enable": true,
+  "eslint.nodePath": "./client/node_modules",
+  "stylelint.stylelintPath": "./client/node_modules/stylelint/lib/index.js",
+  "stylelint.configBasedir": "./client/node_modules",
+  "typescript.tsdk": "./client/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
