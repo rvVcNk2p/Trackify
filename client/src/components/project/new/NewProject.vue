@@ -120,7 +120,6 @@ export default class NewProject extends Vue {
   }
 
   mounted (): void {
-    // TODO - Remove UUID and handle ID on server
     if (this.updatableProject) {
       this.defaultProject = { ...this.updatableProject }
     }

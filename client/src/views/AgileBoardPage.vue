@@ -21,8 +21,12 @@ import { ProjectBoard } from '@/store/types'
 })
 export default class AgileBoardPage extends Vue {
   get getProjectboard (): ProjectBoard {
+    return this.$store.getters['board/getProjectBoard']
+  }
+
+  mounted (): void {
     const { boardId } = this.$route.params
-    return this.$store.getters['project/getProjectBoard'](boardId)
+    this.$store.dispatch('board/fetchProjectBoard', boardId)
   }
 }
 </script>

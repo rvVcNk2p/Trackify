@@ -1,10 +1,22 @@
 <template>
   <div class="agile-board-column">
     <!-- Outsource as an AgileBoardHeader component -->
-    <div class="agile-board-header">
+    <div
+      class="agile-board-header"
+      @dblclick="setColumnModal(true)"
+    >
       <div class="agile-board-header__title">
         {{ header.name }}
       </div>
+      <modal
+        v-if="isColumnModalOpen"
+        v-model="isColumnModalOpen"
+      >
+        <add-new-column
+          :updatable-column="header"
+          @closeModal="setColumnModal(false)"
+        />
+      </modal>
     </div>
     <div
       class="agile-board-container agile-board-drop-zone"
@@ -42,6 +54,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import AgileBoardTicket from '@/components/board/AgileBoardTicket.vue'
+import AddNewColumn from '@/components/board/new/AddNewColumn.vue'
 import NewCard from '@/components/card/new/NewCard.vue'
 import Modal from '@/components/modal/Modal.vue'
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
@@ -50,6 +63,7 @@ import { AvailableColumn, GroupedIssues } from '@/store/types'
 @Component({
   components: {
     AgileBoardTicket,
+    AddNewColumn,
     MaterialIcon,
     NewCard,
     Modal
@@ -69,9 +83,14 @@ export default class AgileBoardColumn extends Vue {
   readonly header!: AvailableColumn
 
   isNewCardOpen = false
+  isColumnModalOpen = false
 
   setNewCardModal (val: boolean): void {
     this.isNewCardOpen = val
+  }
+
+  setColumnModal (val: boolean): void {
+    this.isColumnModalOpen = val
   }
 
   get orderedIssues (): Array<GroupedIssues> {
@@ -81,7 +100,7 @@ export default class AgileBoardColumn extends Vue {
   onDrop (evt: DragEvent): void {
     if (evt.dataTransfer) {
       const issueId = evt.dataTransfer.getData('issueID')
-      this.$store.commit('project/moveTicket', {
+      this.$store.commit('board/moveTicket', {
         boardId: this.$route.params.boardId,
         newState: this.header.state,
         issueId

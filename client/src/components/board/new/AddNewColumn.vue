@@ -11,6 +11,7 @@
         v-model="defaultColumn.state"
         placeholder="e.g. backlog"
         label="State: "
+        :disabled="updatableColumn ? true : false"
       />
     </div>
     <div class="add-new-column__actions">
@@ -34,7 +35,6 @@
 </template>
 
 <script lang="ts">
-import { v4 as uuidv4 } from 'uuid'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
@@ -57,7 +57,6 @@ export default class AddNewColumn extends Vue {
   readonly updatableColumn!: AvailableColumn
 
   defaultColumn: AvailableColumn = {
-    _id: null,
     name: null,
     state: null,
     order: null
@@ -73,15 +72,14 @@ export default class AddNewColumn extends Vue {
   }
 
   updateColumn (projectId: string): void {
-    this.$store.commit('project/updateColumn', { column: this.defaultColumn, projectId })
+    this.$store.dispatch('board/updateBoardColumn', { column: this.defaultColumn, projectId })
   }
 
   createColumn (projectId:string): void {
     const column = {
-      ...this.defaultColumn,
-      _id: uuidv4()
+      ...this.defaultColumn
     }
-    this.$store.commit('project/createColumn', { column, projectId })
+    this.$store.dispatch('board/createBoardColumn', { column, projectId })
   }
 
   mounted (): void {

@@ -18,6 +18,7 @@
       :value="value"
       class="tr-input__field"
       :placeholder="placeholder"
+      :disabled="disabled"
       @input="updateValue($event)"
     >
   </div>
@@ -57,6 +58,12 @@ export default class TrInput extends Vue {
     default: null
   })
   labelTooltip!: string
+
+  @Prop({
+    type: Boolean,
+    default: false
+  })
+  disabled!: boolean
 
   updateValue (event: Event): void {
     const { value } = event.currentTarget as HTMLInputElement

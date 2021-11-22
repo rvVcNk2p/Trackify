@@ -81,8 +81,7 @@ export default class CardFieldsPanel extends Vue {
   }
 
   get possibleStates (): Array<FieldArray> {
-    const boardId = this.$route.params.boardId
-    return this.$store.getters['project/getPossibleStates'](boardId)
+    return this.$store.getters['board/getPossibleStates']
   }
 
   @Watch('defaultIssue', { deep: true })

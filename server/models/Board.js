@@ -5,7 +5,8 @@ const BoardSchema = new mongoose.Schema({
     type: Array,
     default: [{
       name: 'Backlog',
-      state: 'backlog'
+      state: 'backlog',
+      order: 1
     }]
   },
   issues: {

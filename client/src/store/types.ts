@@ -43,7 +43,6 @@ export interface Issue {
 }
 
 export interface AvailableColumn {
-  _id: string,
   name: string,
   state: string,
   order: number | null

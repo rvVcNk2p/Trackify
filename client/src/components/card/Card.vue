@@ -64,7 +64,7 @@ export default class CardLayout extends Vue {
         title: newData.title,
         description: newData.description
       }
-      this.$store.commit('project/updateDescription', payload)
+      this.$store.commit('board/updateDescription', payload)
     }
   }
 }

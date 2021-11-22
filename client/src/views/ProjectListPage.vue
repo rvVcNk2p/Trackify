@@ -89,7 +89,7 @@ export default class ProjectList extends Vue {
   }
 
   mounted (): void {
-    this.$store.dispatch('project/getProjects')
+    this.$store.dispatch('project/fetchProjects')
   }
 }
 </script>

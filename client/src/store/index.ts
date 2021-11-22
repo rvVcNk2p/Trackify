@@ -1,7 +1,7 @@
-import axios from 'axios'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 
+import board from './modules/board'
 import project from './modules/project'
 import { FieldArray } from './types'
 
@@ -18,9 +18,8 @@ export function createStore (): StoreInstance {
       }
     },
     getters: {
-      getPossiblePriorities: () => (projectBoardId: string): Array<FieldArray> => {
-        console.log('getPossiblePriorities', projectBoardId)
-        // TODO - Get from selected project
+      getPossiblePriorities: () => (): Array<FieldArray> => {
+        // TODO - Get from selected project || projectBoardId: string
         return [
           { label: 'Show-stopper', value: 'show-stopper' },
           { label: 'Critical', value: 'critical' },
@@ -30,9 +29,8 @@ export function createStore (): StoreInstance {
           { label: 'Blocker', value: 'blocker' }
         ]
       },
-      getPossibleTypes: () => (projectBoardId: string): Array<FieldArray> => {
-        console.log('getPossibleTypes', projectBoardId)
-        // TODO - Get from selected project
+      getPossibleTypes: () => (): Array<FieldArray> => {
+        // TODO - Get from selected project || projectBoardId: string
         return [
           { label: 'Epic', value: 'epic' },
           { label: 'Story', value: 'story' },
@@ -67,11 +65,10 @@ export function createStore (): StoreInstance {
         Vue.set(state, 'selectedBoard', payload)
       }
     },
-    actions: {
-
-    },
+    actions: {},
     modules: {
-      project: project<RootState>(true)
+      project: project<RootState>(true),
+      board: board<RootState>(true)
     }
   })
 }
