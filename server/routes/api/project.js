@@ -40,33 +40,38 @@ router.put('/', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add projects
   try {
     const { _id } = req.body
-    console.log(req.body);
     const updatedProject = await Project.findByIdAndUpdate(
       { _id }, 
       { ...utils.removeEmpty(req.body) }, 
       { new: true }
-    );
-    return res.status(201).json({ updatedProject, msg: 'Project updated!' });
+      );
+      return res.status(201).json({ updatedProject, msg: 'Project updated!' });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
+  
+  //  @route  DELETE api/project/:id
+  //  @desc   Remove project by ID
+  //  @access Private
+  router.delete('/:_id', async (req, res) => {
+  // auth => Add auth, to make sure only logged in users can add projects
+  try {
+    const _id = req.params._id;
+    const project = await Project.deleteOne({ _id });
+    if(project.deletedCount === 1) {
+      res.status(204).json({ isDeleted: true, msg: 'Project has been deleted!' });
+    } else {
+      // TODO - Add error handlings
+    }
   } catch (err) {
     console.log(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Project not found!' });
+    }
     res.status(500).send('Server Error');
   }
 });
-
-//  @route  DELETE api/project/:project_id
-//  @desc   Remove project by ID
-//  @access Private
-// router.delete('/:project_id', auth, async (req, res) => {
-//   try {
-//     const _id = req.params.project_id;
-//     res.status(200).json({ msg: 'Project has been deleted!' });
-//   } catch (err) {
-//     console.log(err.message);
-//     if (err.kind === 'ObjectId') {
-//       return res.status(404).json({ msg: 'Film not found!' });
-//     }
-//     res.status(500).send('Server Error');
-//   }
-// });
 
 module.exports = router;

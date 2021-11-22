@@ -77,12 +77,12 @@ export default class CardFieldsPanel extends Vue {
 
   get possibleStates (): Array<FieldArray> {
     const boardId = this.$route.params.boardId
-    return this.$store.getters.getPossibleStates(boardId)
+    return this.$store.getters['project/getPossibleStates'](boardId)
   }
 
   @Watch('defaultIssue', { deep: true })
   updateIssue ():void {
-    this.$store.commit('updateTicket', this.defaultIssue)
+    this.$store.commit('project/updateTicket', this.defaultIssue)
   }
 
   mounted (): void {

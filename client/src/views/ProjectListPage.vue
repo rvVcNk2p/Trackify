@@ -60,7 +60,7 @@ export default class ProjectList extends Vue {
   editableProjectId: string | null = null
 
   get projects (): Array<Partial<Project>> | null {
-    return this.$store.getters.getProjects
+    return this.$store.getters['project/getProjects']
   }
 
   setModal (val: boolean): void {
@@ -74,7 +74,7 @@ export default class ProjectList extends Vue {
   }
 
   get editableProject (): Project {
-    return this.$store.getters.getProjectById(this.editableProjectId)
+    return this.$store.getters['project/getProjectById'](this.editableProjectId)
   }
 
   initProjectBoard (projectId: number): void {
@@ -89,7 +89,7 @@ export default class ProjectList extends Vue {
   }
 
   mounted (): void {
-    this.$store.dispatch('getProjects')
+    this.$store.dispatch('project/getProjects')
   }
 }
 </script>

@@ -53,7 +53,7 @@ export default class AgileBoardissue extends Vue {
 
   get projectPrefix (): string {
     const boardId = this.$route.params.boardId
-    return this.$store.getters.getProjectPrefix(boardId)
+    return this.$store.getters['project/getProjectPrefix'](boardId)
   }
 
   get prefixedId (): string {

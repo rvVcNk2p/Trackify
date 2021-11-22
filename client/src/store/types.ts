@@ -24,7 +24,7 @@ export interface Project {
 }
 
 export interface Issue {
-  _id: string | null,
+  _id: string,
   title: string | null,
   description: string | null,
   category: string | null,
@@ -39,23 +39,22 @@ export interface Issue {
   sprints: string | null,
   dueDate: Date | null,
   originalEstimation: string | null
+  order: number
 }
 
+export interface AvailableColumn {
+  _id: string,
+  name: string,
+  state: string,
+  order: number | null
+}
 export interface ProjectBoard {
   _id: string | null,
   projectId: string | null,
   backlog: Array<Issue> | null,
-  availableColumns: Array<string> | null,
-  issues: Array<Issue>
+  availableColumns: Array<AvailableColumn>,
+  issues: Array<Issue>,
 }
-
-export interface AvailableColumn {
-  _id: string | null,
-  name: string | null,
-  state: string | null,
-  order: number | null
-}
-
 export interface FieldArray {
   value: string | null,
   label: string

@@ -73,7 +73,7 @@ export default class AddNewColumn extends Vue {
   }
 
   updateColumn (projectId: string): void {
-    this.$store.commit('updateColumn', { column: this.defaultColumn, projectId })
+    this.$store.commit('project/updateColumn', { column: this.defaultColumn, projectId })
   }
 
   createColumn (projectId:string): void {
@@ -81,7 +81,7 @@ export default class AddNewColumn extends Vue {
       ...this.defaultColumn,
       _id: uuidv4()
     }
-    this.$store.commit('createColumn', { column, projectId })
+    this.$store.commit('project/createColumn', { column, projectId })
   }
 
   mounted (): void {

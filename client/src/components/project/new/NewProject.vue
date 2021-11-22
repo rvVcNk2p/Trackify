@@ -32,19 +32,29 @@
     />
     <!-- Project Preview -->
     <div class="new-project__actions">
+      <div class="new-project__main-actions">
+        <tr-button
+          theme="dark"
+          @click="modifyProject"
+        >
+          <material-icon :icon="updatableProject ? 'edit' : 'add'" />
+          {{ updatableProject ? 'Update Project' : 'Create Project' }}
+        </tr-button>
+        <tr-button
+          theme="outline"
+          class="new-project__actions-cancel"
+          @click="$emit('closeModal')"
+        >
+          Cancel
+        </tr-button>
+      </div>
       <tr-button
-        theme="dark"
-        class="new-project__actions-save"
-        @click="modifyProject"
+        v-if="updatableProject"
+        theme="danger"
+        class="new-project__actions-delete"
+        @click="deleteProject"
       >
-        <material-icon :icon="updatableProject ? 'edit' : 'add'" />
-        {{ updatableProject ? 'Update Project' : 'Create Project' }}
-      </tr-button>
-      <tr-button
-        theme="outline"
-        @click="$emit('closeModal')"
-      >
-        Cancel
+        Delete
       </tr-button>
     </div>
   </div>
@@ -93,14 +103,20 @@ export default class NewProject extends Vue {
       ...this.defaultProject,
       createdAt: new Date().toISOString()
     }
-    this.$store.dispatch('createProject', project)
+    this.$store.dispatch('project/createProject', project)
     this.$emit('closeModal')
   }
 
   updateProject (): void {
-    // this.$store.commit('updateProject', this.defaultProject)
-    this.$store.dispatch('updateProject', this.defaultProject)
+    this.$store.dispatch('project/updateProject', this.defaultProject)
     this.$emit('closeModal')
+  }
+
+  deleteProject (): void {
+    // TODO - More sophisticated confirmation
+    window.confirm('Are you sure you want to delete this project?') &&
+      this.$store.dispatch('project/deleteProject', this.defaultProject._id) &&
+      this.$emit('closeModal')
   }
 
   mounted (): void {
@@ -118,11 +134,16 @@ export default class NewProject extends Vue {
 
   .new-project__actions {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-top: rem(20);
 
-    .new-project__actions-save {
-      margin-right: rem(10);
+    .new-project__main-actions {
+      display: flex;
+    }
+
+    .new-project__actions-cancel,
+    .new-project__actions-delete {
+      margin-left: rem(10);
     }
   }
 }

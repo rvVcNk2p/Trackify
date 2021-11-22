@@ -21,4 +21,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+// @route  DELETE api/board/:projectId
+// @desc   Delete board by projectId
+// @access Private
+router.delete('/:projectId', async (req, res) => {
+  // auth => Add auth, to make sure only logged in users can add boards
+  try {
+    const { projectId } = req.params;
+    const board = await Board.deleteOne({ projectId });
+    if(board.deletedCount === 1) {
+      return res.status(204).json({ isDeleted: true, msg: 'Board has been deleted!' });
+    } else {
+      // TODO - Add error handling
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

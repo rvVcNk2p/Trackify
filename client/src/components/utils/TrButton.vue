@@ -62,5 +62,17 @@ export default class TrButton extends Vue {
       opacity: 0.8;
     }
   }
+
+  &.tr-button--danger {
+    border: rem(1) solid $global__color--red;
+    background-color: $global__color--white;
+    color: $global__color--red;
+    font-weight: 600;
+
+    &:hover {
+      background-color: $global__color--red;
+      color: $global__color--white;
+    }
+  }
 }
 </style>
