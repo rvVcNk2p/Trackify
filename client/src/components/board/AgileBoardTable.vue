@@ -33,7 +33,11 @@ export default class AgileBoardTable extends Vue {
   readonly board!: ProjectBoard
 
   get orderedColumns (): Array<AvailableColumn> {
-    return this.board.availableColumns.sort((a, b) => a.order - b.order)
+    return this.board.availableColumns.sort((a, b) => {
+      if (a.order && b.order) {
+        return a.order > b.order ? 1 : -1
+      } else return 0
+    })
   }
 
   get groupedIssuesByState (): GroupedIssues | Array<GroupedIssues> {
