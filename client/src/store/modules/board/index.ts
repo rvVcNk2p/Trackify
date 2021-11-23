@@ -36,34 +36,6 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       setProjectBoard (state, payload) {
         Vue.set(state, 'projectBoard', payload)
       },
-      moveTicket (state, payload) {
-        // const { issueId, newState, boardId } = payload
-        // const updatedBoards = state.projectBoards.map(board => {
-        //   if (board.projectId === boardId) {
-        //     const lastItemOrder = board.issues?.reduce((acc, curr) => {
-        //       if (acc < curr.order && curr.state === newState) {
-        //         acc = curr.order
-        //       }
-        //       return acc
-        //     }, 0)
-
-        //     const updatedIssues = board.issues?.map(issue => {
-        //       if (issue._id === issueId) {
-        //         if (issue.state !== newState) {
-        //           issue.state = newState
-        //           if (lastItemOrder !== undefined) {
-        //             issue.order = lastItemOrder + 1
-        //           }
-        //         }
-        //       }
-        //       return issue
-        //     })
-
-        //     return { ...board, issues: updatedIssues }
-        //   } else return board
-        // })
-        // Vue.set(state, 'projectBoards', updatedBoards)
-      },
       updateTicket (state, payload) {
         const updatedIssues = state.projectBoard?.issues?.map(issue => {
           if (issue._id === payload._id) {
@@ -76,7 +48,7 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         state.projectBoard && Vue.set(state.projectBoard, 'issues', [...state.projectBoard.issues, payload])
       },
       updateColumns (state, availableColumns) {
-        Vue.set(state, 'projectBoard', { ...state.projectBoard, availableColumns })
+        state.projectBoard && Vue.set(state.projectBoard, 'availableColumns', availableColumns)
       }
     },
     actions: {
@@ -84,15 +56,16 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         const res = await axios.get(`/api/board/${projectId}`)
         commit('setProjectBoard', res.data.board)
       },
-      async createBoardColumn ({ commit }, payload) {
-        const res = await axios.post('/api/board/column', payload)
+      async createBoardColumn ({ commit, state }, payload) {
+        const order = state.projectBoard?.availableColumns?.length
+        const res = await axios.post('/api/board/column', { ...payload, order: order ? order + 1 : 1 })
         // TODO - Check if res.data.success
-        commit('updateColumns', { ...res.data.availableColumns })
+        commit('updateColumns', res.data.availableColumns)
       },
       async updateBoardColumn ({ commit }, payload) {
         const res = await axios.put('/api/board/column', payload)
         // TODO - Check if res.data.success
-        commit('updateColumns', { ...res.data.availableColumns })
+        commit('updateColumns', res.data.availableColumns)
       },
       async createTicket ({ commit, state }, payload) {
         let largestId = state.projectBoard?.issues?.reduce((acc, curr) => {
@@ -109,6 +82,20 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       },
       async updateTicket ({ commit }, payload) {
         const res = await axios.put('/api/ticket', { ticket: payload })
+        // TODO - Check if res.data.success
+        commit('updateTicket', res.data.updatedTicket)
+      },
+      async moveTicket ({ commit, state }, payload) {
+        const lastItemOrder = state.projectBoard?.issues?.reduce((acc, curr) => {
+          if (acc < curr.order && curr.state === payload.newState) acc = curr.order
+          return acc
+        }, 0)
+        const ticket = {
+          _id: payload._id,
+          state: payload.newState,
+          order: lastItemOrder ? lastItemOrder + 1 : 1
+        }
+        const res = await axios.put('/api/ticket', { ticket })
         // TODO - Check if res.data.success
         commit('updateTicket', res.data.updatedTicket)
       }

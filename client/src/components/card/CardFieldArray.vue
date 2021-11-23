@@ -88,7 +88,7 @@ export default class CardFieldArray extends Vue {
       }, '')
     } else {
       return this.options.reduce((acc, nextVal) => {
-        if (nextVal.value === this.value) {
+        if (nextVal.label && nextVal.value === this.value) {
           acc = nextVal.label
         }
         return acc

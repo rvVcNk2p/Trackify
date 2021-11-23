@@ -100,10 +100,9 @@ export default class AgileBoardColumn extends Vue {
   onDrop (evt: DragEvent): void {
     if (evt.dataTransfer) {
       const issueId = evt.dataTransfer.getData('issueID')
-      this.$store.commit('board/moveTicket', {
-        boardId: this.$route.params.boardId,
+      this.$store.dispatch('board/moveTicket', {
         newState: this.header.state,
-        issueId
+        _id: issueId
       })
     }
   }

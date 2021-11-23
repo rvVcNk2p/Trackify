@@ -74,10 +74,10 @@ router.post('/issue', async (req, res) => {
 router.post('/column', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add boards
   try {
-    const { column, projectId } = req.body
+    const { column, projectId, order } = req.body
     // TODO - Add order property
     // TODO - Check if column already exists [unique state per column]
-    const updatedBoard = await Board.findOneAndUpdate({ projectId }, { $push: { availableColumns: column } }, { new: true });
+    const updatedBoard = await Board.findOneAndUpdate({ projectId }, { $push: { availableColumns: { ...column, order} } }, { new: true });
     const { availableColumns } = updatedBoard;
     return res.status(201).json({ availableColumns, msg: 'Board column added!' });
   } catch (err) {
@@ -96,7 +96,7 @@ router.put('/column', async (req, res) => {
     // TODO - Check if column is exists
     const updatedBoard = await Board.findOneAndUpdate(
       { 'availableColumns.state': column.state, projectId }, 
-      { $set: { 'availableColumns.$.name': column.name } }, 
+      { $set: { 'availableColumns.$.name': column.name, 'availableColumns.$.order': column.order } }, 
       { new: true }
     );
     const { availableColumns } = updatedBoard;

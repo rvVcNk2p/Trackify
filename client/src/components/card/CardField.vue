@@ -75,12 +75,11 @@ export default class CardField extends Vue {
 
   get valueString (): string {
     const nullPlaceholders = {
-      project: 'No project',
       estimation: '?',
       spentTime: '?',
       originalEstimation: '?'
     }
-    if (this.value === null) {
+    if (this.value === null || this.value === '') {
       return Object.entries(nullPlaceholders).reduce((acc, nextVal) => {
         if (nextVal[0] === this.title) {
           acc = nextVal[1]

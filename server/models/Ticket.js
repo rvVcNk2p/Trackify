@@ -40,7 +40,7 @@ const TicketSchema = new mongoose.Schema({
     type: Object,
     default: null
   },
-  estination: {
+  estimation: {
     type: String,
     default: null
   },

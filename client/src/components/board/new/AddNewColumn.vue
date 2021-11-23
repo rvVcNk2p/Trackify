@@ -8,6 +8,12 @@
         label-tooltip="We will display this text in the Column Header section."
       />
       <tr-input
+        v-if="updatableColumn"
+        v-model="defaultColumn.order"
+        placeholder="e.g. 1"
+        label="Order: "
+      />
+      <tr-input
         v-model="defaultColumn.state"
         placeholder="e.g. backlog"
         label="State: "

@@ -53,7 +53,6 @@ export default class CardFieldsPanel extends Vue {
   readonly issue!: Issue
 
   defaultIssue: Partial<Issue> = {
-    _id: null,
     priority: null,
     type: null,
     state: null,

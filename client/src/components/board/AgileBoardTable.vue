@@ -2,7 +2,7 @@
   <div class="agile-board-table">
     <div class="agile-board-table__columns">
       <agile-board-column
-        v-for="column in board.availableColumns"
+        v-for="column in orderedColumns"
         :key="column.state"
         :header="column"
         :column="groupedIssuesByState[column.state] || []"
@@ -17,7 +17,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import AgileBoardColumn from '@/components/board/AgileBoardColumn.vue'
 import NewBoardColumn from '@/components/board/NewBoardColumn.vue'
-import { GroupedIssues, ProjectBoard } from '@/store/types'
+import { AvailableColumn, GroupedIssues, ProjectBoard } from '@/store/types'
 
 @Component({
   components: {
@@ -31,6 +31,10 @@ export default class AgileBoardTable extends Vue {
     required: true
   })
   readonly board!: ProjectBoard
+
+  get orderedColumns (): Array<AvailableColumn> {
+    return this.board.availableColumns.sort((a, b) => a.order - b.order)
+  }
 
   get groupedIssuesByState (): GroupedIssues | Array<GroupedIssues> {
     if (this.board.issues) {

@@ -24,7 +24,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         return state.projects.filter(project => project._id === projectId)[0]
       },
       getProjectPrefix: (state) => (projectId: string) => {
-        return state.projects.filter(project => project._id === projectId)[0].prefix
+        if (state.projects.length > 0) {
+          return state.projects.filter(project => project._id === projectId)[0].prefix
+        } else return null
       }
     },
     mutations: {

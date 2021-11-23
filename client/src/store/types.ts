@@ -45,9 +45,9 @@ export interface Issue {
 }
 
 export interface AvailableColumn {
-  name: string,
-  state: string,
-  order: number | null
+  name: string | null,
+  state: string | null,
+  order: string | null
 }
 export interface ProjectBoard {
   _id: string | null,
@@ -58,7 +58,7 @@ export interface ProjectBoard {
 }
 export interface FieldArray {
   value: string | null,
-  label: string
+  label: string | null
 }
 
 export interface GroupedIssues {
