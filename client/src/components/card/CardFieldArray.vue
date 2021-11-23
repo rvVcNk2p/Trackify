@@ -77,7 +77,7 @@ export default class CardFieldArray extends Vue {
       type: 'Task',
       state: 'Backlog',
       created: 'Unassigned', // TODO - created.assignee
-      sprints: 'No sprints' // TODO - Sprints
+      sprint: 'No sprint' // TODO - Sprint
     }
     if (this.value === null) {
       return Object.entries(nullPlaceholders).reduce((acc, nextVal) => {

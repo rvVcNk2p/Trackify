@@ -24,4 +24,4 @@ const ProjectSchema = new mongoose.Schema({
   // TODO - Add members type
 });
 
-module.exports = Project = mongoose.model('Project', ProjectSchema);
+module.exports = Project = mongoose.model('project', ProjectSchema);

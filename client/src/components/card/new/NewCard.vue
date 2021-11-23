@@ -60,14 +60,13 @@ export default class NewCard extends Vue {
   newTicket: Partial<Issue> = {
     description: null,
     title: null,
-    _id: null,
     priority: null,
     type: null,
     state: null,
     created: null, // TODO - Assignee
     estimation: null,
     spentTime: null,
-    sprints: null, // TODO - Sprints
+    sprint: null, // TODO - Sprint
     dueDate: null, // TODO - Due Date
     originalEstimation: null
   }
@@ -76,7 +75,7 @@ export default class NewCard extends Vue {
     const { title, description, action } = newData
     if (action === 'save') {
       this.newTicket = { ...this.newTicket, title, description }
-      this.$store.commit('board/createTicket', { ticket: this.newTicket, boardId: this.$route.params.boardId })
+      this.$store.dispatch('board/createTicket', { ...this.newTicket, projectId: this.$route.params.boardId })
     }
     this.$emit('closeModal', action)
   }

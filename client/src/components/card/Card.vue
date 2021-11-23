@@ -8,7 +8,7 @@
           @update:isEditing="isEditing = $event"
         />
         <card-issue-informations
-          :id="issue._id"
+          :ticket-number="issue.ticketNumber"
           :created="issue.created ? issue.created : null"
           :updated="issue.updated ? issue.updated : null"
         />
@@ -60,11 +60,11 @@ export default class CardLayout extends Vue {
     this.isEditing = false
     if (newData.action === 'save') {
       const payload = {
-        issueId: this.issue._id,
+        _id: this.issue._id,
         title: newData.title,
         description: newData.description
       }
-      this.$store.commit('board/updateDescription', payload)
+      this.$store.dispatch('board/updateTicket', payload)
     }
   }
 }

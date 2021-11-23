@@ -9,10 +9,12 @@ const BoardSchema = new mongoose.Schema({
       order: 1
     }]
   },
-  issues: {
-    type: Array,
-    default: []
-  },
+  issues: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ticket'
+    }
+  ],
   backlog: {
     type: Array,
     default: []
@@ -24,4 +26,4 @@ const BoardSchema = new mongoose.Schema({
   }
 });
 
-module.exports = Board = mongoose.model('Board', BoardSchema);
+module.exports = Board = mongoose.model('board', BoardSchema);

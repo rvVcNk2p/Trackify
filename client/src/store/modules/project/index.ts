@@ -13,37 +13,7 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     namespaced,
     state () {
       return {
-        projects: [
-          // {
-          //   _id: '1234',
-          //   imgUrl: 'https://art.pixilart.com/d04bd8b33083cb4.png',
-          //   name: 'Trackify - Development',
-          //   prefix: 'TRF-D',
-          //   description: 'An Issue tracking app like YouTrack or Jira',
-          //   members: [
-          //     {
-          //       _id: '1',
-          //       name: 'John Doe',
-          //       avatar: 'https://randomuser.me/api/portraits/thumb/men/74.jpg'
-          //     },
-          //     {
-          //       _id: '2',
-          //       name: 'Bob Doe',
-          //       avatar: 'https://randomuser.me/api/portraits/thumb/men/29.jpg'
-          //     },
-          //     {
-          //       _id: '3',
-          //       name: 'Bill Doe',
-          //       avatar: 'https://randomuser.me/api/portraits/thumb/men/39.jpg'
-          //     },
-          //     {
-          //       _id: '4',
-          //       name: 'Jane Doe',
-          //       avatar: 'https://randomuser.me/api/portraits/thumb/women/82.jpg'
-          //     }
-          //   ]
-          // }
-        ]
+        projects: []
       }
     },
     getters: {

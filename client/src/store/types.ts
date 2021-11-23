@@ -25,6 +25,9 @@ export interface Project {
 
 export interface Issue {
   _id: string,
+  ticketNumber: number,
+  boardId: string,
+  projectId: string,
   title: string | null,
   description: string | null,
   category: string | null,
@@ -33,10 +36,9 @@ export interface Issue {
   state: string | null,
   created: IssueTimeStamp | null,
   updated: IssueTimeStamp | null,
-  updatedBy: ProjectMember | null,
   estimation: string | null,
   spentTime: string | null,
-  sprints: string | null,
+  sprint: string | null,
   dueDate: Date | null,
   originalEstimation: string | null
   order: number

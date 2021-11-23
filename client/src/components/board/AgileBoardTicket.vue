@@ -57,7 +57,7 @@ export default class AgileBoardissue extends Vue {
   }
 
   get prefixedId (): string {
-    return this.projectPrefix + '-' + this.issue._id
+    return this.projectPrefix + '-' + this.issue.ticketNumber
   }
 
   startDrag (evt: DragEvent): void {

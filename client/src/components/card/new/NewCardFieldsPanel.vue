@@ -21,7 +21,7 @@
       title="spentTime"
       placeholder="4h 30m"
     />
-    <!-- TODO - Sprints -->
+    <!-- TODO - Sprint -->
     <card-field
       v-model="defaultIssue.originalEstimation"
       title="originalEstimation"
@@ -58,7 +58,7 @@ export default class CardFieldsPanel extends Vue {
     estimation: null,
     spentTime: null,
     originalEstimation: null,
-    sprints: null, // TODO - Sprints
+    sprint: null, // TODO - Sprint
     dueDate: null, // TODO - Due Date
     created: {
       assignee: {

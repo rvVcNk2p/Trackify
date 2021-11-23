@@ -26,10 +26,10 @@ import { IssueTimeStamp } from '@/store/types'
 @Component
 export default class CardIssueInformations extends Vue {
   @Prop({
-    type: String,
+    type: Number,
     required: true
   })
-  readonly id!: string
+  readonly ticketNumber!: number
 
   @Prop({
     type: Object as () => IssueTimeStamp,
@@ -53,7 +53,7 @@ export default class CardIssueInformations extends Vue {
   }
 
   get prefixedId (): string {
-    return this.projectPrefix + '-' + this.id
+    return this.projectPrefix + '-' + this.ticketNumber
   }
 }
 </script>

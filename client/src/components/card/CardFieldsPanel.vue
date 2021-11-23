@@ -29,7 +29,7 @@
     />
     <!-- TODO - Assignee -->
     <!-- TODO - Due Date -->
-    <!-- TODO - Sprints -->
+    <!-- TODO - Sprint -->
   </div>
 </template>
 
@@ -60,7 +60,7 @@ export default class CardFieldsPanel extends Vue {
     created: null, // TODO - Assignee
     estimation: null,
     spentTime: null,
-    sprints: null, // TODO - Sprints
+    sprint: null, // TODO - Sprint
     dueDate: null, // TODO - Due Date
     originalEstimation: null
   }
@@ -81,7 +81,7 @@ export default class CardFieldsPanel extends Vue {
 
   @Watch('defaultIssue', { deep: true })
   updateIssue ():void {
-    this.$store.commit('board/updateTicket', this.defaultIssue)
+    this.$store.dispatch('board/updateTicket', this.defaultIssue)
   }
 
   mounted (): void {
