@@ -17,6 +17,11 @@
       label="Project image"
       label-tooltip="Give us an available image address/url."
     />
+    <members-input
+      :members="defaultProject.members"
+      :possible-options="possibleMembers"
+      @update="defaultProject.members = $event"
+    />
     <div class="new-project__preview">
       <project-card
         :key="defaultProject._id"
@@ -63,16 +68,18 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
+import MembersInput from '@/components/member/MembersInput.vue'
 import ProjectCard from '@/components/project/ProjectCard.vue'
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import TrButton from '@/components/utils/TrButton.vue'
 import TrInput from '@/components/utils/TrInput.vue'
-import { Project } from '@/store/types'
+import { Project, ProjectMember } from '@/store/types'
 
 @Component({
   components: {
     TrInput,
     TrButton,
+    MembersInput,
     MaterialIcon,
     ProjectCard
   }
@@ -90,7 +97,11 @@ export default class NewProject extends Vue {
     name: null,
     description: null,
     imgUrl: null,
-    members: null
+    members: []
+  }
+
+  get possibleMembers (): Array<ProjectMember> {
+    return this.$store.getters['project/getPossibleMembers']
   }
 
   modifyProject ():void {
@@ -123,6 +134,7 @@ export default class NewProject extends Vue {
     if (this.updatableProject) {
       this.defaultProject = { ...this.updatableProject }
     }
+    this.$store.dispatch('project/fetchPossibleMembers')
   }
 }
 </script>

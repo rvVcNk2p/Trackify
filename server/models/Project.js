@@ -17,11 +17,12 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     default: 'Project Description'
   },
-  members: {
-    type: Array,
-    default: []
-  }
-  // TODO - Add members type
+  members: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  ]
 });
 
 module.exports = Project = mongoose.model('project', ProjectSchema);

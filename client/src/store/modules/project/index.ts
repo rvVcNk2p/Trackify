@@ -2,10 +2,11 @@ import axios from 'axios'
 import Vue from 'vue'
 import { Module } from 'vuex'
 
-import { Project } from '@/store/types'
+import { Project, ProjectMember } from '@/store/types'
 
 export type ProjectState = {
   projects: Array<Project>,
+  possibleMembers: Array<ProjectMember>,
 }
 
 export default function createProjectModule<RootState> (namespaced: boolean): Module<ProjectState, RootState> {
@@ -13,12 +14,16 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     namespaced,
     state () {
       return {
-        projects: []
+        projects: [],
+        possibleMembers: []
       }
     },
     getters: {
       getProjects (state) {
         return state.projects
+      },
+      getPossibleMembers (state) {
+        return state.possibleMembers
       },
       getProjectById: (state) => (projectId: string) => {
         return state.projects.filter(project => project._id === projectId)[0]
@@ -48,6 +53,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       deleteProject (state, payload) {
         const projects = state.projects.filter(project => project._id !== payload)
         Vue.set(state, 'projects', projects)
+      },
+      setPossibleMembers (state, payload) {
+        Vue.set(state, 'possibleMembers', payload)
       }
     },
     actions: {
@@ -74,6 +82,10 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         await axios.delete(`/api/board/${projectId}`)
         // TODO - check property isDeleted
         commit('deleteProject', projectId)
+      },
+      async fetchPossibleMembers ({ commit }) {
+        const res = await axios.get('/api/users/all')
+        commit('setPossibleMembers', res.data)
       }
     }
   }

@@ -8,6 +8,20 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 
+//  @route  POST api/users/all
+//  @desc   Register new user
+//  @access Protected
+router.get('/all', async (req, res) => {
+  // TODO: Add protection
+  try {
+    const users = await User.find().select('-password -date');
+    res.status(200).json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+})
+
 //  @route  POST api/users
 //  @desc   Register new user
 //  @access Public
@@ -38,8 +52,7 @@ router.post(
       user = new User({
         name,
         email,
-        password,
-        avatar
+        password
       });
       // Encrypt password
       const salt = await bycrypt.genSalt(10);

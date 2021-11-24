@@ -64,7 +64,8 @@ export default class CardFieldsPanel extends Vue {
       assignee: {
         _id: '1',
         name: 'Kussy Leo',
-        avatar: 'https://lh3.googleusercontent.com/a-/AOh14Gi_cp1hFDmmXecjoUXvSq-zPc2I8VnZpI4HKKoXaw=s576-p-rw-no'
+        avatar: 'https://lh3.googleusercontent.com/a-/AOh14Gi_cp1hFDmmXecjoUXvSq-zPc2I8VnZpI4HKKoXaw=s576-p-rw-no',
+        email: 'kussynorbert@gmail.com'
       },
       at: new Date()
     } // TODO - Assignee
