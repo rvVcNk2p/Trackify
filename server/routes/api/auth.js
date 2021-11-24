@@ -9,8 +9,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 
 //  @route  GET api/auth
-//  @desc   Test route
-//  @access Public
+//  @desc   Get user by token
+//  @access Private
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -64,7 +64,7 @@ router.post(
       jwt.sign(
         payload,
         config.get('jwtSecret'),
-        { expiresIn: 360000 }, // Late will you edit this
+        { expiresIn: 360000 }, // TODO - Change this to 3600
         (err, token) => {
           if (err) throw err;
           res.json({ token });

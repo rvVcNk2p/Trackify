@@ -6,7 +6,8 @@ export interface NavLink {
 export interface ProjectMember {
   _id: string | null,
   name: string,
-  avatar: string | null
+  avatar: string | null,
+  email: string,
 }
 
 export interface IssueTimeStamp {

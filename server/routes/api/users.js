@@ -8,19 +8,6 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 
-//  @route  GET api/users
-//  @desc   Get user by token
-//  @access Private
-router.get('/', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 //  @route  POST api/users
 //  @desc   Register new user
 //  @access Public
@@ -39,24 +26,22 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
+    
     const { name, email, password } = req.body;
 
     try {
       // See if user exists
       let user = await User.findOne({ email });
       if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] });
+        return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
       }
-
       user = new User({
         name,
         email,
         password,
+        avatar
       });
-      // Encrypt the password
+      // Encrypt password
       const salt = await bycrypt.genSalt(10);
       user.password = await bycrypt.hash(password, salt);
       await user.save();
@@ -70,7 +55,7 @@ router.post(
       jwt.sign(
         payload,
         config.get('jwtSecret'),
-        { expiresIn: 360000 }, // Late will you edit this
+        { expiresIn: 360000 }, // TODO - Change this to 3600
         (err, token) => {
           if (err) throw err;
           res.json({ token });

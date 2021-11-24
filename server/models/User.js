@@ -10,9 +10,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  // TODO - Make it required
   password: {
     type: String,
-    required: true,
+    
   },
   avatar: {
     type: String,
@@ -20,11 +21,7 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now(),
-  },
-  idAdmin: {
-    type: Boolean,
-    default: false,
-  },
+  }
 });
 
 module.exports = User = mongoose.model('user', UserSchema);
