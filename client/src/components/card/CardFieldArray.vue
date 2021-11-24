@@ -128,10 +128,8 @@ export default class CardFieldArray extends Vue {
       color: $global__color--red2;
     }
   }
-}
 
-@media screen and (max-width: $global__breakpoint--mobile) {
-  .card-field-array {
+  @media screen and (max-width: $global__breakpoint--mobile) {
     flex-direction: column;
 
     .card-field-array__title {

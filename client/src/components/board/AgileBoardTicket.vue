@@ -97,17 +97,19 @@ export default class AgileBoardissue extends Vue {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    width: 100%;
+    width: rem(205);
     height: 100%;
     padding: rem(5);
 
     .agile-board-issue__header {
+      display: flex;
       color: $global__color--grey3;
       font-size: rem(14);
       font-weight: 400;
       cursor: default;
 
       .agile-board-issue__header--id {
+        min-width: fit-content;
         color: $global__color--white;
         font-size: rem(16);
         font-weight: 600;
@@ -121,7 +123,7 @@ export default class AgileBoardissue extends Vue {
     }
 
     .agile-board-issue__footer {
-      .avatar__img {
+      .tr-avatar__img {
         margin-left: 0;
       }
     }
@@ -130,6 +132,6 @@ export default class AgileBoardissue extends Vue {
 
 .drag-el {
   margin-bottom: rem(10);
-  padding: rem(5);
+  padding: rem(10);
 }
 </style>

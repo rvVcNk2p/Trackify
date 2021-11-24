@@ -121,10 +121,8 @@ export default class CardField extends Vue {
       color: $global__color--red2;
     }
   }
-}
 
-@media screen and (max-width: $global__breakpoint--mobile) {
-  .card-field {
+  @media screen and (max-width: $global__breakpoint--mobile) {
     flex-direction: column;
 
     .card-field__title {

@@ -63,8 +63,8 @@ export default class CardFieldsPanel extends Vue {
     created: {
       assignee: {
         _id: '1',
-        name: 'Emma Doe',
-        avatar: 'https://randomuser.me/api/portraits/thumb/women/83.jpg'
+        name: 'Kussy Leo',
+        avatar: 'https://lh3.googleusercontent.com/a-/AOh14Gi_cp1hFDmmXecjoUXvSq-zPc2I8VnZpI4HKKoXaw=s576-p-rw-no'
       },
       at: new Date()
     } // TODO - Assignee
