@@ -7,7 +7,7 @@
       <input
         ref="inputContainer"
         v-model="filterValue"
-        placeholder="Start typing... after 3 characters, options will appears"
+        placeholder="Start typing..."
         class="tr-members-input__field"
       >
       <input-panel
@@ -30,9 +30,6 @@
           @selectMember="addMember(member)"
         />
       </input-panel>
-
-      <!-- // TODO - Bubble options -->
-      {{ members }}
     </div>
   </div>
 </template>
@@ -40,10 +37,9 @@
 <script lang="ts">
 import { Component, Prop, Ref, Vue } from 'vue-property-decorator'
 
+import MemberElement from '@/components/member/MemberElement.vue'
 import InputPanel from '@/components/utils/InputPanel.vue'
 import { ProjectMember } from '@/store/types'
-
-import MemberElement from './MemberElement.vue'
 
 @Component({
   components: {
@@ -65,16 +61,17 @@ export default class TrMembersInput extends Vue {
   members!: Array<ProjectMember>
 
   filterValue = ''
+  isSearching = false
 
   @Ref('inputContainer')
   readonly inputContainer!: HTMLDivElement
 
-  isSearching = false
-
   get filteredOptions (): Array<ProjectMember> {
+    const membersId = this.members.map(member => member._id).join('')
     return this.possibleOptions.filter(option => {
       const concatenatedString = `${option.name}${option.email}`.toLowerCase().replace(' ', '')
-      return concatenatedString.includes(this.filterValue.toLowerCase()) && !this.members.includes(option)
+      const isNotInMembers = !membersId.includes(option._id)
+      return concatenatedString.includes(this.filterValue.toLowerCase()) && isNotInMembers
     })
   }
 
@@ -120,8 +117,9 @@ export default class TrMembersInput extends Vue {
       position: absolute;
       top: rem(24);
       max-height: rem(110);
-      padding: rem(10);
       overflow: scroll;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
 
       .tr-members-input__no-option {
         padding: rem(20);

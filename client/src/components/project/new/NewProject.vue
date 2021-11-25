@@ -22,6 +22,10 @@
       :possible-options="possibleMembers"
       @update="defaultProject.members = $event"
     />
+    <selected-members-list
+      :members="defaultProject.members"
+      @remove="removeMember"
+    />
     <div class="new-project__preview">
       <project-card
         :key="defaultProject._id"
@@ -35,7 +39,6 @@
       label="Issues Prefix"
       label-tooltip="Used for tickets unique identification."
     />
-    <!-- Project Preview -->
     <div class="new-project__actions">
       <div class="new-project__main-actions">
         <tr-button
@@ -69,6 +72,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import MembersInput from '@/components/member/MembersInput.vue'
+import SelectedMembersList from '@/components/member/SelectedMembersList.vue'
 import ProjectCard from '@/components/project/ProjectCard.vue'
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import TrButton from '@/components/utils/TrButton.vue'
@@ -80,6 +84,7 @@ import { Project, ProjectMember } from '@/store/types'
     TrInput,
     TrButton,
     MembersInput,
+    SelectedMembersList,
     MaterialIcon,
     ProjectCard
   }
@@ -102,6 +107,12 @@ export default class NewProject extends Vue {
 
   get possibleMembers (): Array<ProjectMember> {
     return this.$store.getters['project/getPossibleMembers']
+  }
+
+  removeMember (member: ProjectMember): void {
+    this.defaultProject.members = this.defaultProject.members.filter(
+      (m: ProjectMember) => m._id !== member._id
+    )
   }
 
   modifyProject ():void {

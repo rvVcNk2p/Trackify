@@ -12,7 +12,7 @@ const utils = require( '../../utils/index');
 //  @access Public
 router.get('/', async (req, res) => {
   try {
-    const projects = await Project.find({}).populate('members', '-password -date')
+    const projects = await Project.find({}).populate('members', '-password -date -__v')
     res.json({ projects, msg: 'Projects are here!' });
   } catch (err) {
     console.log(err.message);
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
   try {
     const project = {...req.body, members: req.body.members.map(member => ObjectId(member._id))}
     let newProject = await Project.create({ ...utils.removeEmpty(project) })
-    newProject = await newProject.populate('members', '-password -date').execPopulate()
+    newProject = await newProject.populate('members', '-password -date -__v').execPopulate()
     return res.status(201).json({ newProject, msg: 'Project created!' });
   } catch (err) {
     console.log(err.message);
@@ -47,7 +47,7 @@ router.put('/', async (req, res) => {
       { _id }, 
       { ...utils.removeEmpty(req.body) }, 
       { new: true }
-      ).populate('members', '-password -date');
+      ).populate('members', '-password -date -__v');
       return res.status(201).json({ updatedProject, msg: 'Project updated!' });
     } catch (err) {
       console.log(err.message);

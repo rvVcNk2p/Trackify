@@ -14,7 +14,7 @@ const User = require('../../models/User');
 router.get('/all', async (req, res) => {
   // TODO: Add protection
   try {
-    const users = await User.find().select('-password -date');
+    const users = await User.find().select('-password -date -__v');
     res.status(200).json(users);
   } catch (err) {
     console.error(err.message);
@@ -52,7 +52,8 @@ router.post(
       user = new User({
         name,
         email,
-        password
+        password,
+        avatar: `https://i.pravatar.cc/50?img=${Math.floor(Math.random() * 70) + 1}`
       });
       // Encrypt password
       const salt = await bycrypt.genSalt(10);

@@ -30,14 +30,14 @@
     >
       <new-project
         :updatable-project="editableProjectId ? editableProject : null"
-        @closeModal="setModal(false)"
+        @closeModal="isModalOpen = false"
       />
     </modal>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
 import Modal from '@/components/modal/Modal.vue'
 import NewProject from '@/components/project/new/NewProject.vue'
@@ -63,14 +63,16 @@ export default class ProjectList extends Vue {
     return this.$store.getters['project/getProjects']
   }
 
-  setModal (val: boolean): void {
-    this.isModalOpen = val
-    if (!val) this.setEditableProjectId(null)
+  @Watch('isModalOpen')
+  resetEditableProjectId (): void {
+    if (!this.isModalOpen) {
+      this.editableProjectId = null
+    }
   }
 
-  setEditableProjectId (_id: string | null): void {
+  setEditableProjectId (_id: string): void {
     this.editableProjectId = _id
-    if (this.editableProjectId) this.setModal(true)
+    this.isModalOpen = true
   }
 
   get editableProject (): Project {
