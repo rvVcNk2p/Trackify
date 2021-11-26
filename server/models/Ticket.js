@@ -25,16 +25,15 @@ const TicketSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  // TODO - Authentication
   created: {
     type: Object,
-    default: { 
-      assignee: {
-        _id: '1',
-        name: 'Jane Doe',
-        avatar: 'https://randomuser.me/api/portraits/thumb/women/82.jpg'
-      },
-      at: new Date()
-    }
+    default: null
+  },
+  assignee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true
   },
   updated: {
     type: Object,

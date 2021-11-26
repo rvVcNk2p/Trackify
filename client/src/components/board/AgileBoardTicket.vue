@@ -10,7 +10,7 @@
         <span class="agile-board-issue__header--id">{{ prefixedId }}</span> {{ issue.title }}
       </div>
       <div class="agile-board-issue__footer">
-        <tr-avatar :member="issue.created.assignee" />
+        <tr-avatar :member="issue.assignee" />
       </div>
     </div>
 
@@ -103,6 +103,7 @@ export default class AgileBoardissue extends Vue {
 
     .agile-board-issue__header {
       display: flex;
+      align-items: baseline;
       color: $global__color--grey3;
       font-size: rem(14);
       font-weight: 400;
@@ -110,6 +111,7 @@ export default class AgileBoardissue extends Vue {
 
       .agile-board-issue__header--id {
         min-width: fit-content;
+        margin-right: rem(5);
         color: $global__color--white;
         font-size: rem(16);
         font-weight: 600;

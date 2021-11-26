@@ -74,10 +74,21 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
           } else return acc
         }, 0)
         largestId = largestId ? largestId + 1 : 1
+        const assignee = payload.assignee ? payload.assignee._id : null
+        // TODO - Need authentication
+        const created = {
+          assignee: {
+            _id: '1',
+            name: 'Jane Doe',
+            avatar: 'https://randomuser.me/api/portraits/thumb/women/82.jpg'
+          },
+          at: new Date()
+        }
 
-        const res = await axios.post('/api/ticket', { newTicket: { ...payload, order: largestId, boardId: state.projectBoard?._id } })
+        const res = await axios.post('/api/ticket', { newTicket: { ...payload, order: largestId, boardId: state.projectBoard?._id, assignee, created } })
         await axios.post('/api/board/issue', { newTicket: res.data.newTicket })
         // TODO - Check if res.data.success
+
         commit('createTicket', res.data.newTicket)
       },
       async updateTicket ({ commit }, payload) {

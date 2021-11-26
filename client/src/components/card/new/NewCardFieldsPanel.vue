@@ -10,7 +10,6 @@
       title="type"
       :options="possibleTypes"
     />
-    <!-- TODO - Assignee -->
     <card-field-array
       v-model="defaultIssue.state"
       title="state"
@@ -21,6 +20,25 @@
       title="spentTime"
       placeholder="4h 30m"
     />
+    <div
+      class="new-card-fields-panel__member"
+      @click="isOpen = true"
+    >
+      <div class="new-card-fields-panel__member-title">
+        Assignee
+      </div>
+      <div class="new-card-fields-panel__member-assignee">
+        {{ assignee }}
+      </div>
+      <members-input-panel
+        :is-open="isOpen"
+        position="top"
+        :member="defaultIssue.assignee"
+        :possible-members="possibleMembers"
+        @change="changeAssignee($event)"
+        @close="isOpen = false"
+      />
+    </div>
     <!-- TODO - Sprint -->
     <card-field
       v-model="defaultIssue.originalEstimation"
@@ -36,12 +54,14 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 import CardField from '@/components/card/CardField.vue'
 import CardFieldArray from '@/components/card/CardFieldArray.vue'
-import { FieldArray, Issue } from '@/store/types'
+import MembersInputPanel from '@/components/member/MembersInputPanel.vue'
+import { FieldArray, Issue, ProjectMember } from '@/store/types'
 
 @Component({
   components: {
     CardField,
-    CardFieldArray
+    CardFieldArray,
+    MembersInputPanel
   }
 })
 export default class CardFieldsPanel extends Vue {
@@ -57,18 +77,17 @@ export default class CardFieldsPanel extends Vue {
     state: null,
     estimation: null,
     spentTime: null,
+    assignee: null,
     originalEstimation: null,
     sprint: null, // TODO - Sprint
     dueDate: null, // TODO - Due Date
-    created: {
-      assignee: {
-        _id: '1',
-        name: 'Kussy Leo',
-        avatar: 'https://lh3.googleusercontent.com/a-/AOh14Gi_cp1hFDmmXecjoUXvSq-zPc2I8VnZpI4HKKoXaw=s576-p-rw-no',
-        email: 'kussynorbert@gmail.com'
-      },
-      at: new Date()
-    } // TODO - Assignee
+    created: null
+  }
+
+  isOpen = false
+
+  get possibleMembers (): Array<ProjectMember> {
+    return this.$store.getters['project/getPossibleMembers'](this.$route.params.boardId)
   }
 
   get possiblePriorities (): Array<FieldArray> {
@@ -85,12 +104,22 @@ export default class CardFieldsPanel extends Vue {
     return this.$store.getters['board/getPossibleStates']
   }
 
+  get assignee (): string {
+    return this.defaultIssue.assignee ? this.defaultIssue.assignee.name : 'Unassigned'
+  }
+
+  changeAssignee (member: ProjectMember): void {
+    this.defaultIssue.assignee = member
+  }
+
   @Watch('defaultIssue', { deep: true })
   updateIssue ():void {
     this.$emit('updatePanelFields', this.defaultIssue)
   }
 
   mounted (): void {
+    this.$store.dispatch('project/fetchPossibleMembers')
+
     this.defaultIssue.state = this.state
   }
 }
@@ -103,5 +132,36 @@ export default class CardFieldsPanel extends Vue {
   border: rem(1) solid $global__color--grey2;
   border-radius: rem(4);
   box-shadow: 0 rem(1) rem(3) rgba(0, 0, 0, 0.2);
+
+  .new-card-fields-panel__member {
+    display: flex;
+    position: relative;
+    padding: 0.625rem 1.25rem;
+    text-align: left;
+
+    &:hover {
+      background-color: $global__color--grey2;
+      cursor: pointer;
+
+      .new-card-fields-panel__member-assignee {
+        color: $global__color--red2;
+      }
+    }
+
+    .new-card-fields-panel__member-title {
+      width: 50%;
+      padding: rem(5) 0;
+      font-size: 0.875rem;
+      font-weight: normal;
+    }
+
+    .new-card-fields-panel__member-assignee {
+      width: 50%;
+      padding: rem(5) 0;
+      color: #121212;
+      font-size: 0.875rem;
+      font-weight: normal;
+    }
+  }
 }
 </style>

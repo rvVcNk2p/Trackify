@@ -5,7 +5,8 @@
   >
     <tr-avatar :member="member" />
     <div class="member-element__name">
-      {{ member.name }} {{ '＜' + member.email + '＞' }}
+      {{ member.name }}
+      <span v-if="!isShort">{{ '＜' + member.email + '＞' }}</span>
     </div>
   </div>
 </template>
@@ -29,6 +30,12 @@ export default class MemberElement extends Vue {
     required: true
   })
   readonly member!: ProjectMember
+
+  @Prop({
+    type: Boolean,
+    default: false
+  })
+  readonly isShort!: boolean
 }
 </script>
 

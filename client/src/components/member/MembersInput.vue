@@ -5,6 +5,7 @@
     </div>
     <div class="tr-members-input__input-wrapper">
       <input
+        v-if="!isIntegratedInput"
         ref="inputContainer"
         v-model="filterValue"
         placeholder="Start typing..."
@@ -16,19 +17,27 @@
         :container-el="inputContainer"
         @update:show="filterValue = ''"
       >
-        <div
-          v-if="filteredOptions.length === 0"
-          class="tr-members-input__no-option"
-        >
-          No options found :(
+        <div>
+          <input
+            v-if="isIntegratedInput"
+            v-model="filterValue"
+            placeholder="Start typing..."
+            class="tr-members-input__integrated-input"
+          >
+          <div
+            v-if="filteredOptions.length === 0"
+            class="tr-members-input__no-option"
+          >
+            No options found :(
+          </div>
+          <member-element
+            v-for="member in filteredOptions"
+            v-else
+            :key="member._id"
+            :member="member"
+            @selectMember="addMember(member)"
+          />
         </div>
-        <member-element
-          v-for="member in filteredOptions"
-          v-else
-          :key="member._id"
-          :member="member"
-          @selectMember="addMember(member)"
-        />
       </input-panel>
     </div>
   </div>
@@ -52,13 +61,19 @@ export default class TrMembersInput extends Vue {
     type: Array,
     default: ''
   })
-  possibleOptions!: Array<ProjectMember>
+  readonly possibleOptions!: Array<ProjectMember>
 
   @Prop({
     type: Array,
     default: ''
   })
-  members!: Array<ProjectMember>
+  readonly members!: Array<ProjectMember>
+
+  @Prop({
+    type: Boolean,
+    default: ''
+  })
+  readonly isIntegratedInput!: boolean
 
   filterValue = ''
   isSearching = false
@@ -67,7 +82,7 @@ export default class TrMembersInput extends Vue {
   readonly inputContainer!: HTMLDivElement
 
   get filteredOptions (): Array<ProjectMember> {
-    const membersId = this.members.map(member => member._id).join('')
+    const membersId = this.members.map(member => member ? member._id : '').join('')
     return this.possibleOptions.filter(option => {
       const concatenatedString = `${option.name}${option.email}`.toLowerCase().replace(' ', '')
       const isNotInMembers = !membersId.includes(option._id)
@@ -120,6 +135,13 @@ export default class TrMembersInput extends Vue {
       overflow: scroll;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
+
+      .tr-members-input__integrated-input {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: 0;
+        border-bottom: 1px solid black;
+      }
 
       .tr-members-input__no-option {
         padding: rem(20);

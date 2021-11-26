@@ -20,6 +20,7 @@
     <members-input
       :members="defaultProject.members"
       :possible-options="possibleMembers"
+      :is-integrated-input="false"
       @update="defaultProject.members = $event"
     />
     <selected-members-list
@@ -106,7 +107,7 @@ export default class NewProject extends Vue {
   }
 
   get possibleMembers (): Array<ProjectMember> {
-    return this.$store.getters['project/getPossibleMembers']
+    return this.$store.getters['project/getPossibleMembers']()
   }
 
   removeMember (member: ProjectMember): void {

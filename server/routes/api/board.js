@@ -10,7 +10,7 @@ router.get('/:projectId', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add boards
   try {
     const { projectId } = req.params;
-    const board = await Board.findOne({ projectId }).populate('issues');;
+    const board = await Board.findOne({ projectId }).populate({ path: 'issues', populate: { path: 'assignee', select: '-password -date -__v' } });
     return res.status(200).json({ board, msg: 'Board found!' });
   } catch (err) {
     console.log(err.message);

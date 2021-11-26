@@ -41,6 +41,12 @@ export default class InputPanel extends Vue {
   readonly isCloseable!: boolean
 
   @Prop({
+    type: Boolean,
+    default: false
+  })
+  readonly outClickClose!: boolean
+
+  @Prop({
     // type: Object // TODO
   })
   readonly containerEl: HTMLElement | undefined
@@ -112,7 +118,12 @@ export default class InputPanel extends Vue {
   }
 
   private _clickEventListener (event: MouseEvent) : void {
-    const isOutside = !event.composedPath().includes(this.containerEl || this.$el)
+    const innerInputEl = document.getElementsByClassName('members-input-panel__integrated-input')[0]
+    // If you want to persist if the click is inside the input panel element, add this.$el to array bellow
+    const containers = [this.containerEl, innerInputEl]
+    if (this.outClickClose) containers.push(this.$el)
+
+    const isOutside = !containers.map(el => event.composedPath().includes(el)).reduce((acc, next) => acc || next, false)
     if (isOutside) {
       this.toggle(false)
     }

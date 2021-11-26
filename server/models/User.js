@@ -15,8 +15,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   avatar: {
-    type: String,
-    default: 'https://lh3.googleusercontent.com/a-/AOh14Gi_cp1hFDmmXecjoUXvSq-zPc2I8VnZpI4HKKoXaw=s576-p-rw-no',
+    type: String
   },
   date: {
     type: Date,

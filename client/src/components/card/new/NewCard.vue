@@ -63,7 +63,8 @@ export default class NewCard extends Vue {
     priority: null,
     type: null,
     state: null,
-    created: null, // TODO - Assignee
+    assignee: null,
+    created: null,
     estimation: null,
     spentTime: null,
     sprint: null, // TODO - Sprint

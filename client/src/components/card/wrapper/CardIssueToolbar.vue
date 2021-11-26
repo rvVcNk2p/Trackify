@@ -92,6 +92,13 @@ export default class CardIssueToolbar extends Vue {
 
     .card-issue-toolbar__element--first,
     .card-issue-toolbar__element--middle,
+    .card-issue-toolbar__element--last {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card-issue-toolbar__element--first,
+    .card-issue-toolbar__element--middle,
     .card-issue-toolbar__element--last,
     .card-issue-toolbar__element--edit {
       position: relative;

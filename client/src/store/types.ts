@@ -28,6 +28,7 @@ export interface Issue {
   _id: string,
   ticketNumber: number,
   boardId: string,
+  assignee: ProjectMember | null,
   projectId: string,
   title: string | null,
   description: string | null,

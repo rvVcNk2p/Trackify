@@ -14,6 +14,7 @@
     <input-panel
       :show="isEditing"
       :is-closeable="true"
+      :out-click-close="true"
       @update:show="setIsEdit($event)"
     >
       <floating-input

@@ -22,8 +22,10 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       getProjects (state) {
         return state.projects
       },
-      getPossibleMembers (state) {
-        return state.possibleMembers
+      getPossibleMembers: (state) => (projectId: string) => {
+        if (projectId) {
+          return state.projects.filter(project => project._id === projectId)[0].members
+        } else return state.possibleMembers
       },
       getProjectById: (state) => (projectId: string) => {
         return state.projects.filter(project => project._id === projectId)[0]
