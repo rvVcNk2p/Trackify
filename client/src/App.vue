@@ -9,6 +9,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 import NavHeader from '@/components/partials/NavHeader.vue'
+import setAuthToken from '@/utils/auth'
 
 @Component({
   components: {
@@ -16,6 +17,12 @@ import NavHeader from '@/components/partials/NavHeader.vue'
   }
 })
 export default class App extends Vue {
+  mounted (): void {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token)
+    }
+    this.$store.dispatch('auth/loadUser')
+  }
 }
 </script>
 

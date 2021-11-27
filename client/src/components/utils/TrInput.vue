@@ -17,6 +17,7 @@
     <input
       :value="value"
       class="tr-input__field"
+      :type="type"
       :placeholder="placeholder"
       :disabled="disabled"
       @input="updateValue($event)"
@@ -40,6 +41,12 @@ export default class TrInput extends Vue {
     default: null
   })
   readonly value!: string
+
+  @Prop({
+    type: String,
+    default: 'text'
+  })
+  type!: string
 
   @Prop({
     type: String,

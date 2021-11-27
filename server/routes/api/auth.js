@@ -13,7 +13,7 @@ const User = require('../../models/User');
 //  @access Private
 router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select('-password -__v -date');
     res.json(user);
   } catch (err) {
     console.log(err.message);
@@ -67,7 +67,8 @@ router.post(
         { expiresIn: 360000 }, // TODO - Change this to 3600
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          const { name, email, _id , avatar } = user;
+          res.json({ token, user: { _id, name, email, avatar }});
         }
       );
     } catch (err) {
