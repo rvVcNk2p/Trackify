@@ -51,8 +51,9 @@ export default class LoginForm extends Vue {
   }
 
   login (): void {
-    // TODO - Validataion and redircet to dashboard
-    this.$store.dispatch('auth/login', this.credentials)
+    this.$store.dispatch('auth/login', this.credentials).then((res) => {
+      res.status === 200 && this.$router.push('/projects')
+    })
   }
 }
 </script>
