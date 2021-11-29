@@ -1,6 +1,7 @@
 export interface NavLink {
+  name: string | null
   label: string | null
-  path: string | null
+  icon: string | null
 }
 
 export interface ProjectMember {

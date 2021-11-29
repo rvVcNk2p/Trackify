@@ -1,9 +1,15 @@
 <template>
   <router-link
     :key="navLink.label"
+    :to="{ name: navLink.name, params: navLink.params }"
     class="nav-link"
-    :to="navLink.path"
+    @click.native="logOut"
   >
+    <material-icon
+      v-if="navLink.icon"
+      :icon="navLink.icon"
+      class="nav-link__icon"
+    />
     {{ navLink.label }}
   </router-link>
 </template>
@@ -11,15 +17,27 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
+import MaterialIcon from '@/components/utils/MaterialIcon'
 import { NavLink as NavLinkType } from '@/store/types'
 
-@Component
+@Component({
+  components: {
+    MaterialIcon
+  }
+})
 export default class NavLink extends Vue {
   @Prop({
     type: Object as () => NavLinkType,
     required: true
   })
   readonly navLink!: NavLinkType
+
+  logOut (): void {
+    if (this.navLink.icon === 'logout') {
+      this.$store.commit('auth/setToken', null)
+      this.$router.push({ name: 'login' })
+    }
+  }
 }
 </script>
 
@@ -37,6 +55,10 @@ export default class NavLink extends Vue {
   font-weight: 600;
   line-height: rem(16.8);
   text-decoration: none;
+
+  .nav-link__icon {
+    margin-right: rem(8);
+  }
 
   &.router-link-active {
     &::after {

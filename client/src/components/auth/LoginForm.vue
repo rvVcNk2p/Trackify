@@ -52,7 +52,7 @@ export default class LoginForm extends Vue {
 
   login (): void {
     this.$store.dispatch('auth/login', this.credentials).then((res) => {
-      res.status === 200 && this.$router.push('/projects')
+      res.status === 200 && this.$router.push({ name: 'projectList' })
     })
   }
 }

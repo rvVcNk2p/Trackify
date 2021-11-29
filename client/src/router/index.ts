@@ -5,8 +5,16 @@ Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
+    path: '/welcome',
+    name: 'home',
+    component: () => import(/* webpackChunkName: "projects" */ '../views/HomePage.vue'),
+    meta: {
+      guest: true
+    }
+  },
+  {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import(/* webpackChunkName: "projects" */ '../views/LoginPage.vue'),
     meta: {
       guest: true
@@ -14,7 +22,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/register',
-    name: 'Register',
+    name: 'register',
     component: () => import(/* webpackChunkName: "projects" */ '../views/RegisterPage.vue'),
     meta: {
       guest: true
@@ -22,15 +30,15 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/projects',
-    name: 'ProjectList',
+    name: 'projectList',
     component: () => import(/* webpackChunkName: "projects" */ '../views/ProjectListPage.vue'),
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/agiles/:boardId/:selectedSprint',
-    name: 'AgileBoards',
+    path: '/agiles/:boardId/current',
+    name: 'agileBoards',
     component: () => import(/* webpackChunkName: "agile-board" */ '../views/AgileBoardPage.vue'),
     meta: {
       requiresAuth: true
@@ -38,7 +46,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/',
-    redirect: { name: 'ProjectList' }
+    redirect: { name: 'projectList' }
   },
   {
     path: '*',

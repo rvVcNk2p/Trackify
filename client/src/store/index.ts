@@ -15,7 +15,6 @@ export function createStore (): StoreInstance {
   return new Vuex.Store({
     state () {
       return {
-        selectedBoard: null
       }
     },
     getters: {
@@ -42,29 +41,9 @@ export function createStore (): StoreInstance {
           { label: 'Improvement', value: 'improvement' },
           { label: 'Spike', value: 'spike' }
         ]
-      },
-      getNavLinks: (state) => {
-        const links = [
-          {
-            path: '/projects',
-            label: 'Projects'
-          }
-        ]
-        // TODO - Just Hidisable selected project
-        if (state.selectedBoard) {
-          links.splice(1, 0, {
-            path: `/agiles/${state.selectedBoard}/current`,
-            label: 'Agile Board'
-          })
-        }
-
-        return links
       }
     },
     mutations: {
-      setSelectedProject (state, payload) {
-        Vue.set(state, 'selectedBoard', payload)
-      }
     },
     actions: {},
     modules: {

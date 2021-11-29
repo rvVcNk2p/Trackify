@@ -7,7 +7,8 @@ import setAuthToken from '@/utils/auth'
 
 export type BoardState = {
   token: string | null,
-  user: ProjectMember | null
+  user: ProjectMember | null,
+  selectedBoard: string | null
 }
 
 export default function createProjectModule<RootState> (namespaced: boolean): Module<BoardState, RootState> {
@@ -16,11 +17,54 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     state () {
       return {
         token: null,
-        user: null
+        user: null,
+        selectedBoard: null
       }
     },
     getters: {
-
+      getNavLinks: (state) => {
+        const authLinks = {
+          main: [{
+            name: 'projectList',
+            label: 'Projects',
+            icon: 'space_dashboard'
+          }],
+          auth: [{
+            name: 'login',
+            label: 'Log Out',
+            icon: 'logout'
+          }]
+        }
+        const guestLinks = {
+          main: [{
+            name: 'home',
+            label: 'Welcome',
+            icon: ''
+          }],
+          auth: [{
+            name: 'register',
+            label: 'Create a free account',
+            icon: 'person_add_alt'
+          },
+          {
+            name: 'login',
+            label: 'Log In',
+            icon: 'login'
+          }]
+        }
+        // TODO - Hide disable selected project
+        if (state.selectedBoard) {
+          authLinks.main.push({
+            name: 'agileBoards',
+            label: 'Agile Board',
+            icon: 'developer_board',
+            params: { boardId: state.selectedBoard }
+          } as any)
+        }
+        if (state.user) {
+          return authLinks
+        } else return guestLinks
+      }
     },
     mutations: {
       setToken (state, payload) {
@@ -35,6 +79,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
           Vue.set(state, 'user', null)
         }
         payload ? setAuthToken(payload.token) : setAuthToken(null)
+      },
+      setSelectedProject (state, payload) {
+        Vue.set(state, 'selectedBoard', payload)
       }
     },
     actions: {
@@ -50,9 +97,6 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         } catch (err) {
           commit('setToken', null)
         }
-      },
-      async logout ({ commit }) {
-        commit('setToken', null)
       }
     }
   }

@@ -80,9 +80,8 @@ export default class ProjectList extends Vue {
   }
 
   initProjectBoard (projectId: number): void {
-    this.$store.commit('setSelectedProject', projectId)
     this.$router.push({
-      name: 'AgileBoards',
+      name: 'agileBoards',
       params: {
         boardId: projectId + '',
         selectedSprint: 'current'

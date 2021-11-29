@@ -26,6 +26,7 @@ export default class AgileBoardPage extends Vue {
 
   mounted (): void {
     const { boardId } = this.$route.params
+    this.$store.commit('auth/setSelectedProject', boardId)
     this.$store.dispatch('board/fetchProjectBoard', boardId)
   }
 }
