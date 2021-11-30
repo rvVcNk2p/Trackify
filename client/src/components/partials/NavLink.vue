@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
-import MaterialIcon from '@/components/utils/MaterialIcon'
+import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import { NavLink as NavLinkType } from '@/store/types'
 
 @Component({

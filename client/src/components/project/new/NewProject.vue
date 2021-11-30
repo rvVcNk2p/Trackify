@@ -111,7 +111,7 @@ export default class NewProject extends Vue {
   }
 
   removeMember (member: ProjectMember): void {
-    this.defaultProject.members = this.defaultProject.members.filter(
+    this.defaultProject.members = this.defaultProject.members?.filter(
       (m: ProjectMember) => m._id !== member._id
     )
   }

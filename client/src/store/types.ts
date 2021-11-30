@@ -1,7 +1,12 @@
 export interface NavLink {
-  name: string | null
-  label: string | null
+  name: string
+  label: string
   icon: string | null
+  params: {[key: string]: string} | null
+}
+export interface NavGroup {
+  main: Array<Partial<NavLink>>,
+  auth: Array<Partial<NavLink>>
 }
 
 export interface ProjectMember {

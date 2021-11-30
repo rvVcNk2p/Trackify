@@ -85,7 +85,7 @@ export default class TrMembersInput extends Vue {
     const membersId = this.members.map(member => member ? member._id : '').join('')
     return this.possibleOptions.filter(option => {
       const concatenatedString = `${option.name}${option.email}`.toLowerCase().replace(' ', '')
-      const isNotInMembers = !membersId.includes(option._id)
+      const isNotInMembers = option._id && !membersId.includes(option._id)
       return concatenatedString.includes(this.filterValue.toLowerCase()) && isNotInMembers
     })
   }

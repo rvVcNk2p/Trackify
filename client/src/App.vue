@@ -17,7 +17,7 @@ import setAuthToken from '@/utils/auth'
   }
 })
 export default class App extends Vue {
-  async mounted (): void {
+  async mounted (): Promise<void> {
     localStorage.token && setAuthToken(localStorage.token)
     this.$store.dispatch('auth/loadUser')
   }

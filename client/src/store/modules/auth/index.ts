@@ -2,7 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import { Module } from 'vuex'
 
-import { ProjectMember } from '@/store/types'
+import { NavGroup, ProjectMember } from '@/store/types'
 import setAuthToken from '@/utils/auth'
 
 export type BoardState = {
@@ -23,7 +23,7 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     },
     getters: {
       getNavLinks: (state) => {
-        const authLinks = {
+        const authLinks: Partial<NavGroup> = {
           main: [{
             name: 'projectList',
             label: 'Projects',
@@ -54,12 +54,12 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         }
         // TODO - Hide disable selected project
         if (state.selectedBoard) {
-          authLinks.main.push({
+          authLinks.main?.push({
             name: 'agileBoards',
             label: 'Agile Board',
             icon: 'developer_board',
             params: { boardId: state.selectedBoard }
-          } as any)
+          })
         }
         if (state.user) {
           return authLinks

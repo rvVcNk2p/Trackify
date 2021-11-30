@@ -123,7 +123,7 @@ export default class InputPanel extends Vue {
     const containers = [this.containerEl, innerInputEl]
     if (this.outClickClose) containers.push(this.$el)
 
-    const isOutside = !containers.map(el => event.composedPath().includes(el)).reduce((acc, next) => acc || next, false)
+    const isOutside = !containers.map(el => el && event.composedPath().includes(el)).reduce((acc, next) => acc || next, false)
     if (isOutside) {
       this.toggle(false)
     }

@@ -33,9 +33,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-import MaterialIcon from '@/components/utils/MaterialIcon'
-import TrButton from '@/components/utils/TrButton'
-import TrInput from '@/components/utils/TrInput'
+import MaterialIcon from '@/components/utils/MaterialIcon.vue'
+import TrButton from '@/components/utils/TrButton.vue'
+import TrInput from '@/components/utils/TrInput.vue'
 
 @Component({
   components: {

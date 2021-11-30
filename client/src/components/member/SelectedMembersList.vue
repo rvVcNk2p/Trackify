@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
-import SelectedMember from '@/components/member/SelectedMember'
+import SelectedMember from '@/components/member/SelectedMember.vue'
 import { ProjectMember } from '@/store/types'
 
 @Component({
