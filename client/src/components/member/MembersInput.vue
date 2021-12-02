@@ -3,7 +3,10 @@
     <div class="tr-members-input__label">
       Members:
     </div>
-    <div class="tr-members-input__input-wrapper">
+    <div
+      v-if="isEditable"
+      class="tr-members-input__input-wrapper"
+    >
       <input
         v-if="!isIntegratedInput"
         ref="inputContainer"
@@ -74,6 +77,12 @@ export default class TrMembersInput extends Vue {
     default: ''
   })
   readonly isIntegratedInput!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false
+  })
+  readonly isEditable!: boolean
 
   filterValue = ''
   isSearching = false

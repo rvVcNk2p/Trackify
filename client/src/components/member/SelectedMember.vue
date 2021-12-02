@@ -5,15 +5,16 @@
       {{ member.name }} {{ '＜' + member.email + '＞' }}
     </div>
     <material-icon
-      icon="clear"
+      v-if="isVisible(member._id)"
+      :icon="memberIcon(member._id)"
       class="selected-member__icon"
-      @click="removeMember"
+      @click="removeMember(member._id)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, InjectReactive, Prop, Vue } from 'vue-property-decorator'
 
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import TrAvatar from '@/components/utils/TrAvatar.vue'
@@ -32,9 +33,26 @@ export default class SelectedMember extends Vue {
   })
   readonly member!: ProjectMember
 
-  removeMember (): void {
-    window.confirm(`Are you sure you want to remove ${this.member.name} from this project?`) &&
-    this.$emit('remove', this.member)
+  @InjectReactive() readonly projectOwner!: string
+  @InjectReactive() readonly authUserId!: string
+
+  removeMember (_id: string): void {
+    if (this.projectOwner !== _id) {
+      // window.confirm(`Are you sure you want to remove ${this.member.name} from this project?`) &&
+      this.$emit('remove', this.member)
+    } else window.alert("Project owner isn't removable!")
+  }
+
+  memberIcon (_id: string): void {
+    if (this.projectOwner === _id) return 'emoji_events'
+    else return 'clear'
+  }
+
+  isVisible (_id: string): void {
+    if (_id === this.projectOwner) return true
+    else if (this.authUserId === this.projectOwner) return true
+    else if (this.projectOwner === null) return true
+    else return false
   }
 }
 </script>

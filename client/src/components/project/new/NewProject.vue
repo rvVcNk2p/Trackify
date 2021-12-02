@@ -18,6 +18,7 @@
       label-tooltip="Give us an available image address/url."
     />
     <members-input
+      :is-editable="defaultProject.owner === authUserId"
       :members="defaultProject.members"
       :possible-options="possibleMembers"
       :is-integrated-input="false"
@@ -70,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, ProvideReactive, Vue } from 'vue-property-decorator'
 
 import MembersInput from '@/components/member/MembersInput.vue'
 import SelectedMembersList from '@/components/member/SelectedMembersList.vue'
@@ -107,6 +108,16 @@ export default class NewProject extends Vue {
     members: []
   }
 
+  @ProvideReactive()
+  get projectOwner (): string {
+    return this.defaultProject.owner
+  }
+
+  @ProvideReactive()
+  get authUserId (): string {
+    return this.$store.getters['auth/getUser']._id
+  }
+
   get possibleMembers (): Array<ProjectMember> {
     return this.$store.getters['project/getPossibleMembers']()
   }
@@ -124,11 +135,15 @@ export default class NewProject extends Vue {
 
   createProject (): void {
     const ownerId = this.$store.getters['auth/getUser']._id
+    const isOwnerAdded = this.defaultProject.members.filter(
+      (m: ProjectMember) => m._id === ownerId
+    ).length > 0
+
     const project = {
       ...this.defaultProject,
       createdAt: new Date().toISOString(),
       owner: ownerId,
-      members: [...this.defaultProject.members, { _id: ownerId }]
+      members: isOwnerAdded ? this.defaultProject.members : [...this.defaultProject.members, { _id: ownerId }]
     }
     this.$store.dispatch('project/createProject', project)
     this.$emit('closeModal')
