@@ -21,7 +21,7 @@
       :disabled="isDisabled"
     />
     <members-input
-      :is-editable="defaultProject.owner === authUserId"
+      :is-editable="defaultProject.owner === authUserId || defaultProject.owner === null"
       :members="defaultProject.members"
       :possible-options="possibleMembers"
       :is-integrated-input="false"
@@ -148,9 +148,9 @@ export default class NewProject extends Vue {
 
   createProject (): void {
     const ownerId = this.$store.getters['auth/getUser']._id
-    const isOwnerAdded = this.defaultProject.members?.filter(
+    const isOwnerAdded = (this.defaultProject.members?.filter(
       (m: ProjectMember) => m._id === ownerId
-    ).length > 0
+    ) || []).length > 0
 
     const project = {
       ...this.defaultProject,

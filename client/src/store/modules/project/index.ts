@@ -19,8 +19,10 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       }
     },
     getters: {
-      getProjects (state) {
-        return state.projects
+      getProjects: (state) => (userId: string) => {
+        const owned = state.projects.filter(project => project.owner === userId)
+        const memberOf = state.projects.filter(project => project.members?.some(member => member._id === userId && project.owner !== userId))
+        return { owned, memberOf }
       },
       getPossibleMembers: (state) => (projectId: string) => {
         if (projectId) {

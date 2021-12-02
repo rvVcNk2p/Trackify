@@ -4,9 +4,6 @@
       <div class="project-llit-wrapper">
         <h1 class="project-list-page__container-title">
           PROJECTS
-          <span class="project-list-page__container-counter">
-            {{ projects.length > 0 ? projects.length : 0 }}
-          </span>
         </h1>
         <tr-button @click="isModalOpen = true">
           <material-icon icon="add" />
@@ -15,8 +12,27 @@
       </div>
 
       <div class="project-list-page__container-projects">
+        <div class="project-list-page__section-title">
+          <span class="project-list-page__container-counter">
+            [{{ projectCounter(projects.owned) }}]
+          </span>
+          Owned Projects:
+        </div>
         <project-card
-          v-for="project in projects"
+          v-for="project in projects.owned"
+          :key="project._id"
+          :project="project"
+          @click="initProjectBoard(project._id)"
+          @setEditableProjectId="setEditableProjectId"
+        />
+        <div class="project-list-page__section-title">
+          <span class="project-list-page__container-counter">
+            [{{ projectCounter(projects.memberOf) }}]
+          </span>
+          Member of Projects:
+        </div>
+        <project-card
+          v-for="project in projects.memberOf"
           :key="project._id"
           :project="project"
           @click="initProjectBoard(project._id)"
@@ -60,7 +76,12 @@ export default class ProjectList extends Vue {
   editableProjectId: string | null = null
 
   get projects (): Array<Partial<Project>> | null {
-    return this.$store.getters['project/getProjects']
+    const id = this.$store.getters['auth/getUser']._id
+    return this.$store.getters['project/getProjects'](id)
+  }
+
+  projectCounter (projects: Array<Project>): number {
+    return projects.length > 0 ? projects.length : 0
   }
 
   @Watch('isModalOpen')
@@ -99,7 +120,7 @@ export default class ProjectList extends Vue {
 .project-list-page {
   width: 100%;
   max-width: $global__breakpoint--max-width;
-  height: 100vw;
+  height: 100vh;
   margin: 0 auto;
 
   .project-list-page__container {
@@ -107,6 +128,14 @@ export default class ProjectList extends Vue {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+
+    .project-list-page__section-title {
+      margin-top: rem(20);
+      margin-bottom: rem(15);
+      font-size: rem(20);
+      font-weight: 600;
+      text-align: left;
+    }
 
     .project-llit-wrapper {
       display: flex;
