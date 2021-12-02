@@ -109,8 +109,8 @@ export default class NewProject extends Vue {
   }
 
   @ProvideReactive()
-  get projectOwner (): string {
-    return this.defaultProject.owner
+  get projectOwner (): string | null {
+    return this.defaultProject.owner || null
   }
 
   @ProvideReactive()
@@ -135,7 +135,7 @@ export default class NewProject extends Vue {
 
   createProject (): void {
     const ownerId = this.$store.getters['auth/getUser']._id
-    const isOwnerAdded = this.defaultProject.members.filter(
+    const isOwnerAdded = this.defaultProject.members?.filter(
       (m: ProjectMember) => m._id === ownerId
     ).length > 0
 

@@ -43,12 +43,12 @@ export default class SelectedMember extends Vue {
     } else window.alert("Project owner isn't removable!")
   }
 
-  memberIcon (_id: string): void {
+  memberIcon (_id: string): string {
     if (this.projectOwner === _id) return 'emoji_events'
     else return 'clear'
   }
 
-  isVisible (_id: string): void {
+  isVisible (_id: string): boolean {
     if (_id === this.projectOwner) return true
     else if (this.authUserId === this.projectOwner) return true
     else if (this.projectOwner === null) return true
