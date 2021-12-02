@@ -5,17 +5,20 @@
       v-model="defaultProject.name"
       placeholder="e.g. Trackify - Development"
       label="Project Name"
+      :disabled="isDisabled"
     />
     <tr-input
       v-model="defaultProject.description"
       placeholder="e.g. Short description about your project"
       label="Short Description"
+      :disabled="isDisabled"
     />
     <tr-input
       v-model="defaultProject.imgUrl"
       placeholder="e.g. https://art.pixilart.com/d04bd8b33083cb4.png"
       label="Project image"
       label-tooltip="Give us an available image address/url."
+      :disabled="isDisabled"
     />
     <members-input
       :is-editable="defaultProject.owner === authUserId"
@@ -40,8 +43,12 @@
       placeholder="e.g. TR => TR-1"
       label="Issues Prefix"
       label-tooltip="Used for tickets unique identification."
+      :disabled="isDisabled"
     />
-    <div class="new-project__actions">
+    <div
+      v-if="!isDisabled"
+      class="new-project__actions"
+    >
       <div class="new-project__main-actions">
         <tr-button
           theme="dark"
@@ -120,6 +127,12 @@ export default class NewProject extends Vue {
 
   get possibleMembers (): Array<ProjectMember> {
     return this.$store.getters['project/getPossibleMembers']()
+  }
+
+  get isDisabled (): boolean {
+    if (this.defaultProject._id === null) return false
+    else if (this.authUserId === this.projectOwner) return false
+    else return true
   }
 
   removeMember (member: ProjectMember): void {
