@@ -17,6 +17,10 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     default: 'Project Description'
   },
+  owner: {
+    type: String,
+    require: true
+  },
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -101,6 +101,7 @@ export default class NewProject extends Vue {
     _id: null,
     prefix: null,
     name: null,
+    owner: null,
     description: null,
     imgUrl: null,
     members: []
@@ -122,9 +123,12 @@ export default class NewProject extends Vue {
   }
 
   createProject (): void {
+    const ownerId = this.$store.getters['auth/getUser']._id
     const project = {
       ...this.defaultProject,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      owner: ownerId,
+      members: [...this.defaultProject.members, { _id: ownerId }]
     }
     this.$store.dispatch('project/createProject', project)
     this.$emit('closeModal')

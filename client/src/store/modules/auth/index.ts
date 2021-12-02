@@ -64,6 +64,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         if (state.user) {
           return authLinks
         } else return guestLinks
+      },
+      getUser: (state) => {
+        return state.user
       }
     },
     mutations: {

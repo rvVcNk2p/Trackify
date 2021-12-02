@@ -25,6 +25,7 @@ export interface Project {
   _id: string | null,
   imgUrl: string | null,
   name: string | null,
+  owner: string | null,
   prefix: string | null,
   description: string | null,
   members: Array<ProjectMember> | null,
