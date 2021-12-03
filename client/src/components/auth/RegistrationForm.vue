@@ -39,7 +39,7 @@
       <tr-button
         theme="dark"
         class="registration-form__submit"
-        @click="login"
+        @click="registration"
       >
         Sign up
         <material-icon
@@ -73,7 +73,7 @@ export default class RegistrationForm extends Vue {
     avatar: null
   }
 
-  login (): void {
+  registration (): void {
     this.$store.dispatch('auth/registration', this.credentials).then((res) => {
       if (res.status === 200) {
         this.$router.push({ name: 'projectList' })

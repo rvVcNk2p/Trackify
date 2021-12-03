@@ -2,6 +2,7 @@
   <div class="app">
     <nav-header />
     <router-view />
+    <snack-bar-list />
   </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 import NavHeader from '@/components/partials/NavHeader.vue'
+import SnackBarList from '@/components/snackbar/SnackBarList.vue'
 import setAuthToken from '@/utils/auth'
 
 @Component({
   components: {
-    NavHeader
+    NavHeader,
+    SnackBarList
   }
 })
 export default class App extends Vue {

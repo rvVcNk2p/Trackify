@@ -99,9 +99,14 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         }
       },
       async login ({ commit }, payload) {
-        const res = await axios.post('api/auth', payload)
-        res.status === 200 && commit('setToken', { token: res.data.token, user: res.data.user })
-        return res
+        try {
+          const res = await axios.post('api/auth', payload)
+          const { token, user } = res.data
+          commit('setToken', { token, user })
+          return res
+        } catch (error) {
+          return error.response
+        }
       },
       async loadUser ({ commit }) {
         try {

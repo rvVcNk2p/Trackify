@@ -73,3 +73,8 @@ export interface FieldArray {
 export interface GroupedIssues {
   [key: string]: Array<Issue>
 }
+export interface Snackbar {
+  id: string,
+  type: string,
+  message: string,
+}
