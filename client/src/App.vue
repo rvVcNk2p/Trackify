@@ -2,21 +2,21 @@
   <div class="app">
     <nav-header />
     <router-view />
-    <snack-bar-list />
+    <notification-list />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
+import NotificationList from '@/components/notification/NotificationList.vue'
 import NavHeader from '@/components/partials/NavHeader.vue'
-import SnackBarList from '@/components/snackbar/SnackBarList.vue'
 import setAuthToken from '@/utils/auth'
 
 @Component({
   components: {
     NavHeader,
-    SnackBarList
+    NotificationList
   }
 })
 export default class App extends Vue {

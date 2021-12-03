@@ -56,7 +56,7 @@ export default class LoginForm extends Vue {
         this.$router.push({ name: 'projectList' })
       } else {
         // TODO - FOR cycle
-        this.$store.dispatch('snack/initSnack', {
+        this.$store.dispatch('notification/createNotification', {
           message: res.data.errors[0].msg,
           type: 'error'
         })

@@ -3,8 +3,8 @@ import Vuex, { Store } from 'vuex'
 
 import auth from './modules/auth'
 import board from './modules/board'
+import notification from './modules/notification'
 import project from './modules/project'
-import snack from './modules/snack'
 import { FieldArray } from './types'
 
 export type RootState = Record<string, unknown>
@@ -51,7 +51,7 @@ export function createStore (): StoreInstance {
       project: project<RootState>(true),
       board: board<RootState>(true),
       auth: auth<RootState>(true),
-      snack: snack<RootState>(true)
+      notification: notification<RootState>(true)
     }
   })
 }

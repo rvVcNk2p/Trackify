@@ -1,10 +1,10 @@
 <template>
   <div
-    class="snack-bar"
-    :class="[`snack-bar--${snack.type}`]"
+    class="notification"
+    :class="[`notification--${notification.type}`]"
   >
-    <div class="snack-bar__content">
-      {{ snack.message }}
+    <div class="notification__content">
+      {{ notification.message }}
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import TrAvatar from '@/components/utils/TrAvatar.vue'
-import { Snackbar as SnackBarType } from '@/store/types'
+import { Notification as NotificationType } from '@/store/types'
 
 @Component({
   components: {
@@ -22,17 +22,17 @@ import { Snackbar as SnackBarType } from '@/store/types'
     MaterialIcon
   }
 })
-export default class SnackBar extends Vue {
+export default class Notification extends Vue {
   @Prop({
-    type: Object as () => SnackBarType,
+    type: Object as () => NotificationType,
     required: true
   })
-  readonly snack!: SnackBarType
+  readonly notification!: NotificationType
 }
 </script>
 
 <style lang="scss">
-.snack-bar {
+.notification {
   width: 50%;
   margin: 0 auto;
   margin-bottom: rem(10);
@@ -45,12 +45,12 @@ export default class SnackBar extends Vue {
     0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   color: $global__color--black;
 
-  &.snack-bar--success {
+  &.notification--success {
     background-color: $global__color--green;
     color: $global__color--white;
   }
 
-  &.snack-bar--error {
+  &.notification--error {
     background-color: $global__color--red;
     color: $global__color--white;
   }
@@ -72,7 +72,7 @@ export default class SnackBar extends Vue {
     100% { opacity: 0; }
   }
 
-  .snack-bar__content {
+  .notification__content {
     font-family: $global__font-family;
     font-weight: 600;
     text-align: left;

@@ -1,13 +1,13 @@
 <template>
-  <div class="snack-bar-list">
+  <div class="notification-list">
     <div
-      v-if="snacks.length > 0"
-      class="snack-bar-list__content"
+      v-if="notifications.length > 0"
+      class="notification-list__content"
     />
-    <snack-bar
-      v-for="snack in snacks"
-      :key="snack.id"
-      :snack="snack"
+    <notification
+      v-for="notification in notifications"
+      :key="notification.id"
+      :notification="notification"
     />
   </div>
 </template>
@@ -15,27 +15,27 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-import SnackBar from '@/components/snackbar/SnackBar.vue'
+import Notification from '@/components/notification/Notification.vue'
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import TrAvatar from '@/components/utils/TrAvatar.vue'
-import { Snackbar as SnackBarType } from '@/store/types'
+import { Notification as NotificationType } from '@/store/types'
 
 @Component({
   components: {
     TrAvatar,
     MaterialIcon,
-    SnackBar
+    Notification
   }
 })
-export default class SnackBarList extends Vue {
-  get snacks (): Array<SnackBarType> {
-    return this.$store.getters['snack/getSnacks'] || []
+export default class NotificationList extends Vue {
+  get notifications (): Array<NotificationType> {
+    return this.$store.getters['notification/getNotifications'] || []
   }
 }
 </script>
 
 <style lang="scss">
-.snack-bar-list {
+.notification-list {
   display: flex;
   position: fixed;
   z-index: 9999;
