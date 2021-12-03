@@ -59,6 +59,7 @@ router.post(
       const salt = await bycrypt.genSalt(10);
       user.password = await bycrypt.hash(password, salt);
       await user.save();
+      const { avatar, _id } = user;
 
       const payload = {
         user: {
@@ -72,7 +73,7 @@ router.post(
         { expiresIn: 360000 }, // TODO - Change this to 3600
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token, user: {name, email, avatar, _id} });
         }
       );
     } catch (err) {

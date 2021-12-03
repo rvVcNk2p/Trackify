@@ -21,9 +21,9 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/register',
-    name: 'register',
-    component: () => import(/* webpackChunkName: "projects" */ '../views/RegisterPage.vue'),
+    path: '/registration',
+    name: 'registration',
+    component: () => import(/* webpackChunkName: "projects" */ '../views/RegistrationPage.vue'),
     meta: {
       guest: true
     }

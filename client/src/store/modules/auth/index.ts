@@ -42,7 +42,7 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
             icon: ''
           }],
           auth: [{
-            name: 'register',
+            name: 'registration',
             label: 'Create a free account',
             icon: 'person_add_alt'
           },
@@ -88,6 +88,16 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       }
     },
     actions: {
+      async registration ({ commit }, payload) {
+        try {
+          const res = await axios.post('api/users', payload)
+          const { token, user } = res.data
+          commit('setToken', { token, user })
+          return res
+        } catch (error) {
+          return error.response
+        }
+      },
       async login ({ commit }, payload) {
         const res = await axios.post('api/auth', payload)
         res.status === 200 && commit('setToken', { token: res.data.token, user: res.data.user })

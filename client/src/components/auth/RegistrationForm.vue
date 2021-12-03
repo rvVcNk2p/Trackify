@@ -1,31 +1,36 @@
 <template>
-  <div class="login-form">
-    <div class="login-form__container">
+  <div class="registration-form">
+    <div class="registration-form__container">
+      <tr-input
+        v-model="credentials.name"
+        class="registration-form__input"
+        placeholder="e.g. Jhon Doe"
+        label="Full name"
+      />
       <tr-input
         v-model="credentials.email"
-        class="login-form__input"
+        class="registration-form__input"
         placeholder="e.g. jhon_doe@gmail.com"
         label="E-mail"
       />
       <tr-input
         v-model="credentials.password"
-        class="login-form__input"
+        class="registration-form__input"
         placeholder="e.g. 1A-********"
         type="password"
         label="Password"
       />
       <tr-button
         theme="dark"
-        class="login-form__submit"
+        class="registration-form__submit"
         @click="login"
       >
-        Login
+        Sign up
         <material-icon
           icon="login"
-          class="login-form__submit-icon"
+          class="registration-form__submit-icon"
         />
       </tr-button>
-      <span class="login-form__advice">*Who enters here, abandon all hope</span>
     </div>
   </div>
 </template>
@@ -44,27 +49,32 @@ import TrInput from '@/components/utils/TrInput.vue'
     MaterialIcon
   }
 })
-export default class LoginForm extends Vue {
+export default class RegistrationForm extends Vue {
   credentials = {
+    name: null,
     email: null,
     password: null
   }
 
   login (): void {
-    this.$store.dispatch('auth/login', this.credentials).then((res) => {
-      res.status === 200 && this.$router.push({ name: 'projectList' })
+    this.$store.dispatch('auth/registration', this.credentials).then((res) => {
+      if (res.status === 200) {
+        this.$router.push({ name: 'projectList' })
+      } else {
+        console.log('ERRORS: ', res.data.errors)
+      }
     })
   }
 }
 </script>
 
 <style lang="scss">
-.login-form {
+.registration-form {
   min-height: 100vw;
   margin-top: rem(50);
   text-align: center;
 
-  .login-form__container {
+  .registration-form__container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -76,28 +86,20 @@ export default class LoginForm extends Vue {
     background-color: $global__color--grey;
   }
 
-  .login-form__input {
+  .registration-form__input {
     width: 100%;
   }
 
-  .login-form__submit {
+  .registration-form__submit {
     display: flex;
     justify-content: center;
     width: 100%;
     padding: rem(10);
     text-align: center;
 
-    .login-form__submit-icon {
+    .registration-form__submit-icon {
       margin-left: rem(5);
     }
-  }
-
-  .login-form__advice {
-    width: 100%;
-    margin-top: rem(1);
-    color: $global__color--grey_800;
-    font-size: rem(4);
-    text-align: right;
   }
 }
 </style>
