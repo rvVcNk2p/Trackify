@@ -76,12 +76,16 @@ export default class ProjectList extends Vue {
   editableProjectId: string | null = null
 
   get projects (): Array<Partial<Project>> | null {
-    const id = this.$store.getters['auth/getUser']._id
-    return this.$store.getters['project/getProjects'](id)
+    const user = this.$store.getters['auth/getUser']
+    if (user) {
+      return this.$store.getters['project/getProjects'](user._id)
+    } else return []
   }
 
   projectCounter (projects: Array<Project>): number {
-    return projects.length > 0 ? projects.length : 0
+    if (projects) {
+      return projects.length
+    } else return 0
   }
 
   @Watch('isModalOpen')
