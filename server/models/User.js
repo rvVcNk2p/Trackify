@@ -10,9 +10,9 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  // TODO - Make it required
   password: {
     type: String,
+    required: true,
   },
   avatar: {
     type: String

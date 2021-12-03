@@ -16,10 +16,26 @@
       <tr-input
         v-model="credentials.password"
         class="registration-form__input"
-        placeholder="e.g. 1A-********"
+        placeholder="********"
         type="password"
         label="Password"
       />
+      <tr-input
+        v-model="credentials.avatar"
+        class="registration-form__input"
+        placeholder="https://i.pravatar.cc/150"
+        type="text"
+        label="Link to your avatar picture"
+      />
+      <div
+        v-if="credentials.avatar"
+        class="registration-form__avatar"
+      >
+        <img
+          :src="credentials.avatar"
+          class="registration-form__avatar-preview"
+        >
+      </div>
       <tr-button
         theme="dark"
         class="registration-form__submit"
@@ -53,7 +69,8 @@ export default class RegistrationForm extends Vue {
   credentials = {
     name: null,
     email: null,
-    password: null
+    password: null,
+    avatar: null
   }
 
   login (): void {
@@ -99,6 +116,20 @@ export default class RegistrationForm extends Vue {
 
     .registration-form__submit-icon {
       margin-left: rem(5);
+    }
+  }
+
+  .registration-form__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0.625rem;
+
+    .registration-form__avatar-preview {
+      width: rem(50);
+      height: rem(50);
+      border-radius: rem(6);
     }
   }
 }

@@ -42,6 +42,7 @@ router.post(
     }
     
     const { name, email, password } = req.body;
+    const avatar = req.body.avatar?.trim().length > 0 || `https://i.pravatar.cc/50?img=${Math.floor(Math.random() * 70) + 1}`;
 
     try {
       // See if user exists
@@ -52,14 +53,14 @@ router.post(
       user = new User({
         name,
         email,
-        password,
-        avatar: `https://i.pravatar.cc/50?img=${Math.floor(Math.random() * 70) + 1}`
+        avatar,
+        password
       });
       // Encrypt password
       const salt = await bycrypt.genSalt(10);
       user.password = await bycrypt.hash(password, salt);
       await user.save();
-      const { avatar, _id } = user;
+      const { _id } = user;
 
       const payload = {
         user: {
