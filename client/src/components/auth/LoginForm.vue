@@ -54,6 +54,10 @@ export default class LoginForm extends Vue {
     this.$store.dispatch('auth/login', this.credentials).then((res) => {
       if (res.status === 200) {
         this.$router.push({ name: 'projectList' })
+        this.$store.dispatch('notification/createNotification', {
+          message: `Welcome ${res.data.user.name}, you are now logged in!`,
+          type: 'success'
+        })
       } else {
         // TODO - FOR cycle
         this.$store.dispatch('notification/createNotification', {

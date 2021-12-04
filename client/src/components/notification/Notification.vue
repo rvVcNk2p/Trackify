@@ -4,6 +4,10 @@
     :class="[`notification--${notification.type}`]"
   >
     <div class="notification__content">
+      <material-icon
+        :icon="getIcon"
+        class="notification__icon"
+      />
       {{ notification.message }}
     </div>
   </div>
@@ -28,12 +32,27 @@ export default class Notification extends Vue {
     required: true
   })
   readonly notification!: NotificationType
+
+  get getIcon (): string {
+    switch (this.notification.type) {
+      case 'success':
+        return 'check_circle'
+      case 'error':
+        return 'error'
+      case 'warning':
+        return 'warning'
+      case 'info':
+        return 'info'
+      default:
+        return 'info'
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 .notification {
-  width: 50%;
+  width: auto;
   margin: 0 auto;
   margin-bottom: rem(10);
   padding: rem(10);
@@ -73,9 +92,16 @@ export default class Notification extends Vue {
   }
 
   .notification__content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     font-family: $global__font-family;
     font-weight: 600;
     text-align: left;
+
+    .notification__icon {
+      margin-right: rem(10);
+    }
   }
 }
 </style>

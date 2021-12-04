@@ -36,6 +36,10 @@ export default class NavLink extends Vue {
     if (this.navLink.icon === 'logout') {
       this.$store.commit('auth/setToken', null)
       this.$router.push({ name: 'login' })
+      this.$store.dispatch('notification/createNotification', {
+        message: 'Bye bye, you are now logged out!',
+        type: 'success'
+      })
     }
   }
 }
