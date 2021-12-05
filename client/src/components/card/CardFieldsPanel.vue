@@ -18,14 +18,17 @@
     <card-field
       v-model="defaultIssue.estimation"
       title="estimation"
+      validation-type="time"
     />
     <card-field
       v-model="defaultIssue.spentTime"
       title="spentTime"
+      validation-type="time"
     />
     <card-field
       v-model="defaultIssue.originalEstimation"
       title="originalEstimation"
+      validation-type="time"
     />
     <div
       class="card-fields-panel__member"

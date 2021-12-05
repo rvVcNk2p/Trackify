@@ -31,7 +31,7 @@ import { Component, Model, Prop, Vue } from 'vue-property-decorator'
 
 import FloatingInput from '@/components/floating/FloatingInput.vue'
 import InputPanel from '@/components/utils/InputPanel.vue'
-import { capitalize } from '@/utils/index'
+import { capitalize, strToDate } from '@/utils/index'
 
 @Component({
   components: {
@@ -57,6 +57,12 @@ export default class CardField extends Vue {
   })
   readonly placeholder!: string
 
+  @Prop({
+    type: String,
+    default: null
+  })
+  readonly validationType!: string
+
   isEditing = false
 
   setIsEdit (val: boolean): void {
@@ -64,8 +70,10 @@ export default class CardField extends Vue {
   }
 
   updateValue (val: string): void {
+    let updatedVal = val
+    if (this.validationType) updatedVal = strToDate(val)
     this.setIsEdit(false)
-    this.$emit('update:value', val)
+    this.$emit('update:value', updatedVal)
   }
 
   get titleString (): string {
