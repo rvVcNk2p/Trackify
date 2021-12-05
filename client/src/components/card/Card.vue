@@ -9,8 +9,10 @@
         />
         <card-issue-informations
           :ticket-number="issue.ticketNumber"
-          :created="issue.created ? issue.created : null"
-          :updated="issue.updated ? issue.updated : null"
+          :created-by="issue.createdBy ? issue.createdBy.name : null"
+          :created-at="issue.createdAt ? issue.createdAt : null"
+          :updated-by="issue.updatedBy ? issue.updatedBy.name : null"
+          :updated-at="issue.updatedAt ? issue.updatedAt : null"
         />
         <card-issue-description
           :description="issue.description"

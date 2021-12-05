@@ -75,28 +75,19 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         }, 0)
         largestId = largestId ? largestId + 1 : 1
         const assignee = payload.assignee ? payload.assignee._id : null
-        // TODO - Need authentication
-        const created = {
-          assignee: {
-            _id: '1',
-            name: 'Jane Doe',
-            avatar: 'https://randomuser.me/api/portraits/thumb/women/82.jpg'
-          },
-          at: new Date()
-        }
 
-        const res = await axios.post('/api/ticket', { newTicket: { ...payload, order: largestId, boardId: state.projectBoard?._id, assignee, created } })
+        const res = await axios.post('/api/ticket', { newTicket: { ...payload, order: largestId, boardId: state.projectBoard?._id, assignee } })
         await axios.post('/api/board/issue', { newTicket: res.data.newTicket })
-        // TODO - Check if res.data.success
-
         commit('createTicket', res.data.newTicket)
       },
-      async updateTicket ({ commit }, payload) {
-        const res = await axios.put('/api/ticket', { ticket: payload })
+      async updateTicket ({ commit, rootGetters }, payload) {
+        const updatedBy = rootGetters['auth/getUser']._id
+        const res = await axios.put('/api/ticket', { ticket: { ...payload, updatedBy } })
         // TODO - Check if res.data.success
         commit('updateTicket', res.data.updatedTicket)
       },
-      async moveTicket ({ commit, state }, payload) {
+      async moveTicket ({ commit, state, rootGetters }, payload) {
+        const updatedBy = rootGetters['auth/getUser']._id
         const lastItemOrder = state.projectBoard?.issues?.reduce((acc, curr) => {
           if (acc < curr.order && curr.state === payload.newState) acc = curr.order
           return acc
@@ -104,7 +95,8 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         const ticket = {
           _id: payload._id,
           state: payload.newState,
-          order: lastItemOrder ? lastItemOrder + 1 : 1
+          order: lastItemOrder ? lastItemOrder + 1 : 1,
+          updatedBy
         }
         const res = await axios.put('/api/ticket', { ticket })
         // TODO - Check if res.data.success

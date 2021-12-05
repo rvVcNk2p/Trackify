@@ -10,7 +10,7 @@ router.get('/:projectId', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add boards
   try {
     const { projectId } = req.params;
-    const tickets = await Ticket.findOne({ projectId }).populate('assignee', '-password -date -__v');;
+    const tickets = await Ticket.findOne({ projectId }).populate('createdBy updatedBy assignee', '-password -date -__v');;
     return res.status(200).json({ tickets, msg: 'Tickets found!' });
   } catch (err) {
     console.log(err.message);
@@ -26,7 +26,8 @@ router.post('/', async (req, res) => {
   try {
     const { newTicket } = req.body
     const ticketNumber = await Ticket.find({ projectId: newTicket.projectId , boardId: newTicket.boardId })
-    const createdNewTicket = await Ticket.create({...newTicket, ticketNumber: ticketNumber.length + 1 }).then(t => t.populate('assignee', '-password -date -__v').execPopulate())
+    const createdNewTicket = await Ticket.create({...newTicket, ticketNumber: ticketNumber.length + 1 }).then(t => t.populate('createdBy updatedBy assignee', '-password -date -__v').execPopulate())
+    console.log(' @route  POST api/ticket: ', createdNewTicket );
     return res.status(201).json({ newTicket: createdNewTicket, msg: 'Ticket created!' });
   } catch (err) {
     console.log(err.message);
@@ -41,10 +42,11 @@ router.put('/', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add boards
   try {
     const { ticket } = req.body;
+    const updatedAt = new Date();
     const updatedTicket = await Ticket.findOneAndUpdate(
       { _id: ticket._id },
-      { ...ticket },
-      { new: true }).populate('assignee', '-password -date -__v');
+      { ...ticket, updatedAt },
+      { new: true }).populate('createdBy updatedBy assignee', '-password -date -__v');
     return res.status(201).json({ updatedTicket, msg: 'Ticket updated!' });
   } catch (err) {
     console.log(err.message);

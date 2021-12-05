@@ -25,19 +25,28 @@ const TicketSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  // TODO - Authentication
-  created: {
-    type: Object,
-    default: null
+  createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      default: null
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   },
   assignee: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true
-  },
-  updated: {
-    type: Object,
-    default: null
   },
   estimation: {
     type: String,

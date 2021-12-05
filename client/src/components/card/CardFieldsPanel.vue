@@ -74,11 +74,12 @@ export default class CardFieldsPanel extends Vue {
   })
   readonly issue!: Issue
 
+  mInit = false
+
   defaultIssue: Partial<Issue> = {
     priority: null,
     type: null,
     state: null,
-    created: null,
     assignee: null,
     estimation: null,
     spentTime: null,
@@ -116,15 +117,19 @@ export default class CardFieldsPanel extends Vue {
   }
 
   @Watch('defaultIssue', { deep: true })
-  updateIssue ():void {
-    this.$store.dispatch('board/updateTicket', this.defaultIssue)
+  updateIssue (): void {
+    if (this.mInit) {
+      this.$store.dispatch('board/updateTicket', this.defaultIssue)
+    }
   }
 
   mounted (): void {
     this.$store.dispatch('project/fetchPossibleMembers')
-
     const { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee } = this.issue
     this.defaultIssue = { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee }
+    this.$nextTick(() => {
+      this.mInit = true
+    })
   }
 }
 </script>

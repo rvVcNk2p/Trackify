@@ -76,7 +76,8 @@ export default class NewCard extends Vue {
     const { title, description, action } = newData
     if (action === 'save') {
       this.newTicket = { ...this.newTicket, title, description }
-      this.$store.dispatch('board/createTicket', { ...this.newTicket, projectId: this.$route.params.boardId })
+      const createdBy = this.$store.getters['auth/getUser']._id
+      this.$store.dispatch('board/createTicket', { ...this.newTicket, projectId: this.$route.params.boardId, createdBy })
     }
     this.$emit('closeModal', action)
   }

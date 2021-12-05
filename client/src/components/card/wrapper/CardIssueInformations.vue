@@ -4,14 +4,14 @@
       <div class="card-issue-informations__header-wrapper">
         <span class="card-issue-informations__header-id">{{ prefixedId }}</span>
         <span class="card-issue-informations__header-created">
-          Created by {{ created.assignee.name }} {{ formatedDate(created.at) }}
+          Created by {{ createdBy }} {{ formatedDate(createdAt) }}
         </span>
       </div>
       <div
-        v-if="updated"
+        v-if="updatedBy && updatedAt"
         class="card-issue-informations__header-updated"
       >
-        Updated by {{ updated.assignee.name }} {{ formatedDate(updated.at) }}
+        Updated by {{ updatedBy }} {{ formatedDate(updatedAt) }}
       </div>
     </div>
   </div>
@@ -20,8 +20,6 @@
 <script lang="ts">
 import moment from 'moment'
 import { Component, Prop, Vue } from 'vue-property-decorator'
-
-import { IssueTimeStamp } from '@/store/types'
 
 @Component
 export default class CardIssueInformations extends Vue {
@@ -32,16 +30,28 @@ export default class CardIssueInformations extends Vue {
   readonly ticketNumber!: number
 
   @Prop({
-    type: Object as () => IssueTimeStamp,
+    type: String,
     default: null
   })
-  readonly created!: IssueTimeStamp
+  readonly createdBy!: string
 
   @Prop({
-    type: Object as () => IssueTimeStamp,
+    type: String,
     default: null
   })
-  readonly updated!: IssueTimeStamp
+  readonly createdAt!: string
+
+  @Prop({
+    type: String,
+    default: null
+  })
+  readonly updatedBy!: string
+
+  @Prop({
+    type: String,
+    default: null
+  })
+  readonly updatedAt!: string
 
   formatedDate (val: Date): string | null {
     return val ? moment(val).fromNow() : null
