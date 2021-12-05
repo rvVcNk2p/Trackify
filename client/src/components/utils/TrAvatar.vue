@@ -2,7 +2,7 @@
   <div class="tr-avatar">
     <img
       class="tr-avatar__img"
-      :src="member.avatar"
+      :src="member && member.avatar ? member.avatar : require('@/assets/images/unassigned_user.jpeg')"
       alt=""
     >
   </div>
@@ -16,10 +16,9 @@ import { ProjectMember } from '@/store/types'
 @Component
 export default class TrAvatar extends Vue {
   @Prop({
-    type: Object as () => ProjectMember,
-    required: true
+    type: Object as () => ProjectMember
   })
-  readonly member!: ProjectMember
+  readonly member!: ProjectMember | null
 }
 </script>
 

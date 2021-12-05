@@ -27,7 +27,6 @@ router.post('/', async (req, res) => {
     const { newTicket } = req.body
     const ticketNumber = await Ticket.find({ projectId: newTicket.projectId , boardId: newTicket.boardId })
     const createdNewTicket = await Ticket.create({...newTicket, ticketNumber: ticketNumber.length + 1 }).then(t => t.populate('createdBy updatedBy assignee', '-password -date -__v').execPopulate())
-    console.log(' @route  POST api/ticket: ', createdNewTicket );
     return res.status(201).json({ newTicket: createdNewTicket, msg: 'Ticket created!' });
   } catch (err) {
     console.log(err.message);

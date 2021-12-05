@@ -73,13 +73,16 @@ export default class TrMembersInput extends Vue {
 
   get filteredOptions (): Array<ProjectMember> {
     const memberId = this.member ? this.member._id : null
-    return this.possibleMembers
+    const pMembers = this.possibleMembers
       .filter(member => member._id !== memberId)
       .filter(member => member.name.toLowerCase().includes(this.filterValue.toLowerCase()))
+    if (this.member) {
+      return [...pMembers, { _id: null, name: 'Unassigned', email: null, avatar: null }]
+    } else return pMembers
   }
 
   change (member: ProjectMember): void {
-    this.$emit('change', member)
+    this.$emit('change', member._id ? member : null)
     this.filterValue = ''
   }
 }
