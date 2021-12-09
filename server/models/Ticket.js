@@ -69,7 +69,7 @@ const TicketSchema = new mongoose.Schema({
     default: null
   },
   dueDate: {
-    type: Date,
+    type: String,
     default: null
   },
   ticketNumber: {

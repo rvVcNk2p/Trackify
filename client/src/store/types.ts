@@ -48,7 +48,7 @@ export interface Issue {
   estimation: string | null,
   spentTime: string | null,
   sprint: string | null,
-  dueDate: Date | null,
+  dueDate: string | null,
   originalEstimation: string | null
   order: number
 }

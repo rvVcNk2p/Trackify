@@ -68,7 +68,7 @@ export default class NewCard extends Vue {
     estimation: null,
     spentTime: null,
     sprint: null, // TODO - Sprint
-    dueDate: null, // TODO - Due Date
+    dueDate: null,
     originalEstimation: null
   }
 
