@@ -152,11 +152,17 @@ export default class NewProject extends Vue {
       (m: ProjectMember) => m._id === ownerId
     ) || []).length > 0
 
+    let members = []
+    if (this.defaultProject.members && this.defaultProject.members.length > 0) {
+      if (isOwnerAdded) members = [...this.defaultProject.members]
+      members = [...this.defaultProject.members, { _id: ownerId }]
+    } else members = [{ _id: ownerId }]
+
     const project = {
       ...this.defaultProject,
       createdAt: new Date().toISOString(),
       owner: ownerId,
-      members: isOwnerAdded ? this.defaultProject.members : [...this.defaultProject.members, { _id: ownerId }]
+      members
     }
     this.$store.dispatch('project/createProject', project)
     this.$emit('closeModal')

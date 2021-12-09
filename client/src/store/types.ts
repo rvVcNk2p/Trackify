@@ -13,7 +13,7 @@ export interface ProjectMember {
   _id: string | null,
   name: string,
   avatar: string | null,
-  email: string,
+  email: string | null,
 }
 
 export interface IssueTimeStamp {

@@ -70,7 +70,7 @@ export default class CardField extends Vue {
   }
 
   updateValue (val: string): void {
-    let updatedVal = val
+    let updatedVal: string | null = val
     if (this.validationType) updatedVal = strToDate(val)
     this.setIsEdit(false)
     this.$emit('update:value', updatedVal)
