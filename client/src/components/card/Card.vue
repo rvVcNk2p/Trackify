@@ -5,6 +5,7 @@
       <div class="card__issue-wrapper">
         <card-issue-toolbar
           v-model="isEditing"
+          :due-date="issue.dueDate"
           @update:isEditing="isEditing = $event"
         />
         <card-issue-informations
@@ -24,6 +25,10 @@
         <!-- TODO - Comments Component + Functionality -->
       </div>
       <div class="card__fields-panel">
+        <tr-date-bubble
+          v-if="issue.dueDate"
+          :due-date="issue.dueDate"
+        />
         <card-fields-panel
           :issue="issue"
         />
@@ -39,6 +44,7 @@ import CardFieldsPanel from '@/components/card/CardFieldsPanel.vue'
 import CardIssueDescription from '@/components/card/wrapper/CardIssueDescription.vue'
 import CardIssueInformations from '@/components/card/wrapper/CardIssueInformations.vue'
 import CardIssueToolbar from '@/components/card/wrapper/CardIssueToolbar.vue'
+import TrDateBubble from '@/components/utils/TrDateBubble.vue'
 import { Issue } from '@/store/types'
 
 @Component({
@@ -46,7 +52,8 @@ import { Issue } from '@/store/types'
     CardFieldsPanel,
     CardIssueToolbar,
     CardIssueInformations,
-    CardIssueDescription
+    CardIssueDescription,
+    TrDateBubble
   }
 })
 export default class CardLayout extends Vue {
@@ -79,7 +86,7 @@ export default class CardLayout extends Vue {
   .card-container {
     display: grid;
     grid-gap: rem(10);
-    grid-template-columns: 7fr 3fr;
+    grid-template-columns: 6fr 4fr;
     min-height: rem(400);
     background-color: $global__color--grey;
 
@@ -88,6 +95,12 @@ export default class CardLayout extends Vue {
       height: fit-content;
       background-color: $global__color--grey;
       color: $global__color--grey_800;
+    }
+
+    .card__fields-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

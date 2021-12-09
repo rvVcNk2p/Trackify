@@ -10,7 +10,6 @@
           New Project
         </tr-button>
       </div>
-
       <div class="project-list-page__container-projects">
         <div class="project-list-page__section-title">
           <span class="project-list-page__container-counter">

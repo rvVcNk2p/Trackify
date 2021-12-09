@@ -95,7 +95,7 @@ export default class NewCard extends Vue {
   .new-card-container {
     display: grid;
     grid-gap: rem(10);
-    grid-template-columns: 7fr 3fr;
+    grid-template-columns: 6fr 4fr;
     background-color: $global__color--grey;
 
     .new-card__issue-wrapper,

@@ -1,6 +1,7 @@
 <template>
   <div
     class="agile-board-issue drag-el"
+    :class="[ remainingTimeStatus ? `agile-board-issue--${remainingTimeStatus}` : '']"
     draggable
     @dragstart="startDrag($event)"
     @dblclick="openModal"
@@ -30,6 +31,7 @@ import Card from '@/components/card/Card.vue'
 import Modal from '@/components/modal/Modal.vue'
 import TrAvatar from '@/components/utils/TrAvatar.vue'
 import { Issue } from '@/store/types'
+import { remainingTimeStatus } from '@/utils/index'
 
 @Component({
   components: {
@@ -64,6 +66,10 @@ export default class AgileBoardissue extends Vue {
     return this.projectPrefix + '-' + this.issue.ticketNumber
   }
 
+  get remainingTimeStatus (): string {
+    return remainingTimeStatus(this.issue.dueDate)
+  }
+
   startDrag (evt: DragEvent): void {
     if (evt.dataTransfer) {
       evt.dataTransfer.dropEffect = 'move'
@@ -86,11 +92,36 @@ export default class AgileBoardissue extends Vue {
   margin-top: rem(10);
   margin-bottom: rem(10);
   padding: rem(10);
+  border-left: rem(2) solid transparent;
   border-radius: rem(5);
   background-color: $global__color--grey_900;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   color: $global__color--white;
   cursor: pointer;
+
+  &.agile-board-issue--red,
+  &.agile-board-issue--orange,
+  &.agile-board-issue--yellow,
+  &.agile-board-issue--green {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &.agile-board-issue--red {
+    border-color: $global__color--red;
+  }
+
+  &.agile-board-issue--orange {
+    border-color: $global__color--orange;
+  }
+
+  &.agile-board-issue--yellow {
+    border-color: $global__color--yellow;
+  }
+
+  &.agile-board-issue--green {
+    border-color: $global__color--green;
+  }
 
   .agile-board-issue__wrapper {
     display: flex;

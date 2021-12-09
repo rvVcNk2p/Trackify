@@ -4,3 +4,4 @@ declare module '*.vue' {
 }
 
 declare module 'vue2-editor'
+declare module 'vue2-datepicker'

@@ -20,6 +20,15 @@
       title="spentTime"
       placeholder="4h 30m"
     />
+    <card-field
+      v-model="defaultIssue.originalEstimation"
+      title="originalEstimation"
+      placeholder="4h 30m"
+    />
+    <tr-date-picker
+      v-model="defaultIssue.dueDate"
+      label="Due Date: "
+    />
     <div
       class="new-card-fields-panel__member"
       @click="isOpen = true"
@@ -40,12 +49,6 @@
       />
     </div>
     <!-- TODO - Sprint -->
-    <card-field
-      v-model="defaultIssue.originalEstimation"
-      title="originalEstimation"
-      placeholder="4h 30m"
-    />
-    <!-- TODO - Due Date -->
   </div>
 </template>
 
@@ -55,13 +58,15 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import CardField from '@/components/card/CardField.vue'
 import CardFieldArray from '@/components/card/CardFieldArray.vue'
 import MembersInputPanel from '@/components/member/MembersInputPanel.vue'
+import TrDatePicker from '@/components/utils/TrDatePicker.vue'
 import { FieldArray, Issue, ProjectMember } from '@/store/types'
 
 @Component({
   components: {
     CardField,
     CardFieldArray,
-    MembersInputPanel
+    MembersInputPanel,
+    TrDatePicker
   }
 })
 export default class CardFieldsPanel extends Vue {
@@ -80,7 +85,7 @@ export default class CardFieldsPanel extends Vue {
     assignee: null,
     originalEstimation: null,
     sprint: null, // TODO - Sprint
-    dueDate: null, // TODO - Due Date
+    dueDate: null,
     created: null
   }
 

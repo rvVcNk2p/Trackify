@@ -25,10 +25,15 @@
       title="spentTime"
       validation-type="time"
     />
+
     <card-field
       v-model="defaultIssue.originalEstimation"
       title="originalEstimation"
       validation-type="time"
+    />
+    <tr-date-picker
+      v-model="defaultIssue.dueDate"
+      label="Due Date: "
     />
     <div
       class="card-fields-panel__member"
@@ -49,7 +54,6 @@
         @close="isOpen = false"
       />
     </div>
-    <!-- TODO - Due Date -->
     <!-- TODO - Sprint -->
   </div>
 </template>
@@ -61,6 +65,7 @@ import CardField from '@/components/card/CardField.vue'
 import CardFieldArray from '@/components/card/CardFieldArray.vue'
 import MembersInput from '@/components/member/MembersInput.vue'
 import MembersInputPanel from '@/components/member/MembersInputPanel.vue'
+import TrDatePicker from '@/components/utils/TrDatePicker.vue'
 import { FieldArray, Issue, ProjectMember } from '@/store/types'
 
 @Component({
@@ -68,7 +73,8 @@ import { FieldArray, Issue, ProjectMember } from '@/store/types'
     CardField,
     CardFieldArray,
     MembersInput,
-    MembersInputPanel
+    MembersInputPanel,
+    TrDatePicker
   }
 })
 export default class CardFieldsPanel extends Vue {
@@ -87,7 +93,7 @@ export default class CardFieldsPanel extends Vue {
     estimation: null,
     spentTime: null,
     sprint: null, // TODO - Sprint
-    dueDate: null, // TODO - Due Date
+    dueDate: null,
     originalEstimation: null
   }
 
@@ -128,8 +134,8 @@ export default class CardFieldsPanel extends Vue {
 
   mounted (): void {
     this.$store.dispatch('project/fetchPossibleMembers')
-    const { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee } = this.issue
-    this.defaultIssue = { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee }
+    const { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee, dueDate } = this.issue
+    this.defaultIssue = { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee, dueDate }
     this.$nextTick(() => {
       this.mInit = true
     })
@@ -139,8 +145,9 @@ export default class CardFieldsPanel extends Vue {
 
 <style lang="scss">
 .card-fields-panel {
+  width: 100%;
   margin: rem(10);
-  margin-top: rem(35);
+  margin-top: rem(10);
   padding: rem(10) rem(0);
   border: rem(1) solid $global__color--grey2;
   border-radius: rem(4);

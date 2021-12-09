@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export function capitalize (srt: string): string {
   return srt.charAt(0).toUpperCase() + srt.slice(1)
 }
@@ -32,4 +34,20 @@ export function strToDate (dateStr: string): string | null {
     }, { finalArr: [], next: 0 } as { finalArr: string[], next: number })
     return time.finalArr.join(' ')
   } else return null
+}
+
+export function remainingHours (dateStr: string): number {
+  return moment(dateStr).diff(moment(new Date()), 'hours')
+}
+
+export function remainingTimeStatus (dateStr: string | null): string {
+  if (dateStr === null) return ''
+  const days = Math.floor(remainingHours(dateStr) / 24)
+  if (days >= 0) {
+    if (days <= 1) return 'red'
+    else if (days > 1 && days <= 3) return 'orange'
+    else if (days > 3 && days <= 5) return 'yellow'
+    else if (days > 5 && days <= 7) return 'yellow'
+    else return 'green'
+  } return ''
 }
