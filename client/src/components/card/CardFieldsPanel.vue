@@ -15,6 +15,11 @@
       title="state"
       :options="possibleStates"
     />
+    <card-field-array
+      v-model="defaultIssue.sprint"
+      title="sprint"
+      :options="possibleSprints"
+    />
     <card-field
       v-model="defaultIssue.estimation"
       title="estimation"
@@ -25,7 +30,6 @@
       title="spentTime"
       validation-type="time"
     />
-
     <card-field
       v-model="defaultIssue.originalEstimation"
       title="originalEstimation"
@@ -54,7 +58,6 @@
         @close="isOpen = false"
       />
     </div>
-    <!-- TODO - Sprint -->
   </div>
 </template>
 
@@ -92,7 +95,7 @@ export default class CardFieldsPanel extends Vue {
     assignee: null,
     estimation: null,
     spentTime: null,
-    sprint: null, // TODO - Sprint
+    sprint: null,
     dueDate: null,
     originalEstimation: null
   }
@@ -117,6 +120,20 @@ export default class CardFieldsPanel extends Vue {
     return this.$store.getters['board/getPossibleStates']
   }
 
+  get possibleSprints (): Array<FieldArray> {
+    let sprints = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
+    if (sprints.length === 0) {
+      return [{ id: null, name: 'No sprints' }]
+    } else sprints = [{ id: null, name: 'No sprint' }].concat(sprints)
+
+    return sprints.map(sprint => {
+      return {
+        value: sprint.id,
+        label: sprint.name
+      }
+    })
+  }
+
   get assignee (): string {
     return this.issue.assignee ? this.issue.assignee.name : 'Unassigned'
   }
@@ -134,8 +151,8 @@ export default class CardFieldsPanel extends Vue {
 
   mounted (): void {
     this.$store.dispatch('project/fetchPossibleMembers')
-    const { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee, dueDate } = this.issue
-    this.defaultIssue = { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee, dueDate }
+    const { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee, dueDate, sprint } = this.issue
+    this.defaultIssue = { _id, priority, type, state, estimation, spentTime, originalEstimation, assignee, dueDate, sprint }
     this.$nextTick(() => {
       this.mInit = true
     })
@@ -148,7 +165,7 @@ export default class CardFieldsPanel extends Vue {
   width: 100%;
   margin: rem(10);
   margin-top: rem(10);
-  padding: rem(10) rem(0);
+  padding: rem(5) rem(0);
   border: rem(1) solid $global__color--grey2;
   border-radius: rem(4);
   box-shadow: 0 rem(1) rem(3) rgba(0, 0, 0, 0.2);
@@ -170,15 +187,13 @@ export default class CardFieldsPanel extends Vue {
 
     .card-fields-panel__member-title {
       width: 50%;
-      padding: rem(5) 0;
       font-size: 0.875rem;
       font-weight: normal;
     }
 
     .card-fields-panel__member-assignee {
       width: 50%;
-      padding: rem(5) 0;
-      color: #121212;
+      color: $global__color--grey_800;
       font-size: 0.875rem;
       font-weight: normal;
     }

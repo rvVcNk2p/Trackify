@@ -55,7 +55,7 @@ export interface Issue {
   updated: IssueTimeStamp | null,
   estimation: string | null,
   spentTime: string | null,
-  sprint: SprintOption | null,
+  sprint: string | null,
   dueDate: string | null,
   originalEstimation: string | null
   order: number

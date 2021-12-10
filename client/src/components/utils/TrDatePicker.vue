@@ -128,7 +128,8 @@ export default class TrDatePicker extends Vue {
     }
 
     .mx-input {
-      padding-left: 0;
+      height: auto;
+      padding: 0;
       border: 0;
       background: transparent;
       box-shadow: none;

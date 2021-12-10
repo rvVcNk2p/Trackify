@@ -15,6 +15,11 @@
       title="state"
       :options="possibleStates"
     />
+    <card-field-array
+      v-model="defaultIssue.sprint"
+      title="sprint"
+      :options="possibleSprints"
+    />
     <card-field
       v-model="defaultIssue.spentTime"
       title="spentTime"
@@ -48,7 +53,6 @@
         @close="isOpen = false"
       />
     </div>
-    <!-- TODO - Sprint -->
   </div>
 </template>
 
@@ -84,7 +88,7 @@ export default class CardFieldsPanel extends Vue {
     spentTime: null,
     assignee: null,
     originalEstimation: null,
-    sprint: null, // TODO - Sprint
+    sprint: null,
     dueDate: null,
     created: null
   }
@@ -107,6 +111,20 @@ export default class CardFieldsPanel extends Vue {
 
   get possibleStates (): Array<FieldArray> {
     return this.$store.getters['board/getPossibleStates']
+  }
+
+  get possibleSprints (): Array<FieldArray> {
+    let sprints = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
+    if (sprints.length === 0) {
+      return [{ id: null, name: 'No sprints' }]
+    } else sprints = [{ id: null, name: 'No sprint' }].concat(sprints)
+
+    return sprints.map(sprint => {
+      return {
+        value: sprint.id,
+        label: sprint.name
+      }
+    })
   }
 
   get assignee (): string {
@@ -133,7 +151,7 @@ export default class CardFieldsPanel extends Vue {
 <style lang="scss">
 .new-card-fields-panel {
   margin: rem(10);
-  padding: rem(10) rem(0);
+  padding: rem(5) rem(0);
   border: rem(1) solid $global__color--grey2;
   border-radius: rem(4);
   box-shadow: 0 rem(1) rem(3) rgba(0, 0, 0, 0.2);
@@ -155,15 +173,13 @@ export default class CardFieldsPanel extends Vue {
 
     .new-card-fields-panel__member-title {
       width: 50%;
-      padding: rem(5) 0;
       font-size: 0.875rem;
       font-weight: normal;
     }
 
     .new-card-fields-panel__member-assignee {
       width: 50%;
-      padding: rem(5) 0;
-      color: #121212;
+      color: $global__color--grey_800;
       font-size: 0.875rem;
       font-weight: normal;
     }
