@@ -71,7 +71,7 @@ export default class TrDatePicker extends Vue {
 
   disabledDate (date: Date): boolean {
     const yesterday = moment().subtract(1, 'days')
-    return date.getTime() < yesterday
+    return moment(date) < yesterday
   }
 
   updateValue (event: Event): void {
