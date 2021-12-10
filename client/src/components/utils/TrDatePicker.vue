@@ -20,6 +20,9 @@
       :disabled-date="disabledDate"
       class="tr-date-picker__input"
       value-type="format"
+      :show-minute="false"
+      :show-second="false"
+      format="YYYY-MM-DD HH"
       type="datetime"
       @input="updateValue($event)"
     />
@@ -62,12 +65,13 @@ export default class TrDatePicker extends Vue {
 
   get formatedVal (): string | null {
     if (this.value !== null) {
-      return moment(this.value).format('YYYY-MM-DD hh:mm:ss')
+      return moment(this.value).format('YYYY-MM-DD HH')
     } else return null
   }
 
   disabledDate (date: Date): boolean {
-    return date.getTime() < Date.now()
+    const yesterday = moment().subtract(1, 'days')
+    return date.getTime() < yesterday
   }
 
   updateValue (event: Event): void {

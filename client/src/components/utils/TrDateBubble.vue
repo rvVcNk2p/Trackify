@@ -10,7 +10,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
-import { remainingHours, remainingTimeStatus } from '@/utils/index'
+import { remainingMinutes, remainingTimeStatus } from '@/utils/index'
 
 @Component
 export default class TrDateBubble extends Vue {
@@ -19,8 +19,8 @@ export default class TrDateBubble extends Vue {
   })
   readonly dueDate!: string
 
-  get remainingHours (): number {
-    return remainingHours(this.dueDate)
+  get remainingMinutes (): number {
+    return remainingMinutes(this.dueDate)
   }
 
   get remainingTimeStatus (): string {
@@ -29,11 +29,15 @@ export default class TrDateBubble extends Vue {
 
   get dateString (): string {
     let remainingTimeString = ''
-    const days = Math.floor(this.remainingHours / 24)
-    if (days) remainingTimeString += `${days} days `
-    const hours = this.remainingHours % 24
-    if (hours) remainingTimeString += `${hours} hours`
-    if (days < 0 || hours < 0) remainingTimeString = 'Overdue'
+
+    const days = Math.floor(this.remainingMinutes / 1440)
+    if (days) remainingTimeString += `${days}d`
+    const hours = Math.floor((this.remainingMinutes - 1440 * days) / 60)
+    if (hours) remainingTimeString += ` ${hours}h`
+    const minutes = Math.floor(((this.remainingMinutes - 1440 * days) - 60 * hours))
+    if (minutes) remainingTimeString += ` ${minutes}m`
+
+    if (days < 0 || hours < 0 || minutes < 0) remainingTimeString = 'Overdue'
     return remainingTimeString
   }
 }
