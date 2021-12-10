@@ -33,7 +33,7 @@ export default class TrDateBubble extends Vue {
     if (days) remainingTimeString += `${days} days `
     const hours = this.remainingHours % 24
     if (hours) remainingTimeString += `${hours} hours`
-
+    if (days < 0 || hours < 0) remainingTimeString = 'Overdue'
     return remainingTimeString
   }
 }
@@ -60,6 +60,10 @@ export default class TrDateBubble extends Vue {
 
   &.tr-date-bubble--green {
     background-color: $global__color--green;
+  }
+
+  &.tr-date-bubble--overdue {
+    background-color: $global__color--grey_800;
   }
 }
 

@@ -49,5 +49,5 @@ export function remainingTimeStatus (dateStr: string | null): string {
     else if (days > 3 && days <= 5) return 'yellow'
     else if (days > 5 && days <= 7) return 'yellow'
     else return 'green'
-  } return ''
+  } return 'overdue'
 }
