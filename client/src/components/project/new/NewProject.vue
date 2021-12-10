@@ -45,6 +45,10 @@
       label-tooltip="Used for tickets unique identification."
       :disabled="isDisabled"
     />
+    <sprint-input
+      v-if="defaultProject._id && (defaultProject.owner === authUserId || defaultProject.owner === null)"
+      v-model="defaultProject.availableSprints"
+    />
     <div
       v-if="!isDisabled"
       class="new-project__actions"
@@ -83,6 +87,7 @@ import { Component, Prop, ProvideReactive, Vue } from 'vue-property-decorator'
 import MembersInput from '@/components/member/MembersInput.vue'
 import SelectedMembersList from '@/components/member/SelectedMembersList.vue'
 import ProjectCard from '@/components/project/ProjectCard.vue'
+import SprintInput from '@/components/project/sprint/SprintInput.vue'
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import TrButton from '@/components/utils/TrButton.vue'
 import TrInput from '@/components/utils/TrInput.vue'
@@ -95,7 +100,8 @@ import { Project, ProjectMember } from '@/store/types'
     MembersInput,
     SelectedMembersList,
     MaterialIcon,
-    ProjectCard
+    ProjectCard,
+    SprintInput
   }
 })
 export default class NewProject extends Vue {
@@ -112,6 +118,7 @@ export default class NewProject extends Vue {
     owner: null,
     description: null,
     imgUrl: null,
+    availableSprints: [],
     members: []
   }
 
@@ -182,7 +189,7 @@ export default class NewProject extends Vue {
 
   mounted (): void {
     if (this.updatableProject) {
-      this.defaultProject = { ...this.updatableProject }
+      this.defaultProject = { ...this.defaultProject, ...this.updatableProject }
     }
     this.$store.dispatch('project/fetchPossibleMembers')
   }

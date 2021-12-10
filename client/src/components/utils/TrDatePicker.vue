@@ -15,15 +15,17 @@
       {{ label }}
     </div>
     <date-picker
+      ref="datepicker"
       :value="formatedVal"
-      placeholder="?"
-      :disabled-date="disabledDate"
       class="tr-date-picker__input"
+      placeholder="?"
+      type="datetime"
       value-type="format"
+      :disabled-date="disabledDate"
+      :show-hour="isHour"
       :show-minute="false"
       :show-second="false"
-      format="YYYY-MM-DD HH"
-      type="datetime"
+      :format="`YYYY-MM-DD${isHour ? ' HH' : ''}`"
       @input="updateValue($event)"
     />
   </div>
@@ -33,7 +35,7 @@
 import 'vue2-datepicker/index.css'
 
 import moment from 'moment'
-import { Component, Model, Prop, Vue } from 'vue-property-decorator'
+import { Component, Model, Prop, Ref, Vue } from 'vue-property-decorator'
 import DatePicker from 'vue2-datepicker'
 
 import TrTooltip from '@/components/utils/TrTooltip.vue'
@@ -63,9 +65,18 @@ export default class TrDatePicker extends Vue {
   })
   labelTooltip!: string
 
+  @Prop({
+    type: Boolean,
+    default: true
+  })
+  isHour!: boolean
+
+  @Ref('datepicker')
+  datePick!: DatePicker
+
   get formatedVal (): string | null {
     if (this.value !== null) {
-      return moment(this.value).format('YYYY-MM-DD HH')
+      return moment(this.value).format(`YYYY-MM-DD${this.isHour ? ' HH' : ''}`)
     } else return null
   }
 
@@ -75,6 +86,12 @@ export default class TrDatePicker extends Vue {
   }
 
   updateValue (event: Event): void {
+    if (event && !this.isHour) this.datePick.closePopup()
+    if (this.value && event) {
+      const oldMin = this.value.split(' ')[1]
+      const newMin = event.split(' ')[1]
+      if (oldMin !== newMin) this.datePick.closePopup()
+    }
     this.$emit('update:value', event)
   }
 }

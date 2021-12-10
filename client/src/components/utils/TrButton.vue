@@ -2,6 +2,7 @@
   <button
     class="tr-button"
     :class="[`tr-button--${theme}`]"
+    :disabled="disabled"
     v-on="$listeners"
   >
     <slot />
@@ -17,6 +18,12 @@ export default class TrButton extends Vue {
     type: String
   })
   theme!: string
+
+  @Prop({
+    type: Boolean,
+    default: false
+  })
+  disabled!: boolean
 }
 </script>
 <style lang="scss">
@@ -30,6 +37,13 @@ export default class TrButton extends Vue {
   color: $global__color--white;
   font-size: rem(16);
   cursor: pointer;
+
+  &:disabled {
+    border-color: $global__color--grey2 !important;
+    background-color: $global__color--white !important;
+    color: $global__color--grey2 !important;
+    pointer-events: none;
+  }
 
   &:hover {
     background-color: $global__color--white;

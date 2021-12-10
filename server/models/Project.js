@@ -17,6 +17,10 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     default: 'Project Description'
   },
+  availableSprints: {
+    type: Array,
+    default: []
+  },
   owner: {
     type: String,
     require: true

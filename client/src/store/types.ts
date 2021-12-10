@@ -21,12 +21,20 @@ export interface IssueTimeStamp {
   at: Date,
 }
 
+export interface SprintOption {
+  id: string,
+  name: string,
+  from: string,
+  to: string,
+}
+
 export interface Project {
   _id: string | null,
   imgUrl: string | null,
   name: string | null,
   owner: string | null,
   prefix: string | null,
+  availableSprints: Array<SprintOption>,
   description: string | null,
   members: Array<ProjectMember> | null,
 }
@@ -47,7 +55,7 @@ export interface Issue {
   updated: IssueTimeStamp | null,
   estimation: string | null,
   spentTime: string | null,
-  sprint: string | null,
+  sprint: SprintOption | null,
   dueDate: string | null,
   originalEstimation: string | null
   order: number
