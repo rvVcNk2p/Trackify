@@ -123,7 +123,7 @@ export default class CardFieldsPanel extends Vue {
   get possibleSprints (): Array<FieldArray> {
     let sprints = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
     if (sprints.length === 0) {
-      return [{ id: null, name: 'No sprints' }]
+      return [{ value: null, label: 'No sprint' }]
     } else sprints = [{ id: null, name: 'No sprint' }].concat(sprints)
 
     return sprints.map(sprint => {
