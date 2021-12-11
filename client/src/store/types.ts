@@ -22,10 +22,10 @@ export interface IssueTimeStamp {
 }
 
 export interface SprintOption {
-  id: string,
+  id: string | null,
   name: string,
-  from: string,
-  to: string,
+  from: string | null,
+  to: string | null,
 }
 
 export interface Project {

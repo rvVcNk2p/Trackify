@@ -20,7 +20,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 
 import AgileBoardTable from '@/components/board/AgileBoardTable.vue'
 import CardFieldArray from '@/components/card/CardFieldArray.vue'
-import { FieldArray, ProjectBoard } from '@/store/types'
+import { FieldArray, ProjectBoard, SprintOption } from '@/store/types'
 
 @Component({
   components: {
@@ -29,14 +29,14 @@ import { FieldArray, ProjectBoard } from '@/store/types'
   }
 })
 export default class AgileBoardPage extends Vue {
-  selectedSprint = null
+  selectedSprint: string | null = null
 
   @Watch('selectedSprint', { immediate: true })
   setAndUpdateSelectedSprint (): void {
     const selectedSprint = this.selectedSprint ? this.selectedSprint : 'current'
     if (this.$route.params.selectedSprint !== selectedSprint) {
       this.updateSelectedSprint(selectedSprint)
-      this.$router.replace({ params: { selectedSprint } })
+      selectedSprint && this.$router.replace({ params: { selectedSprint } })
     }
     this.fetch()
   }
@@ -52,20 +52,20 @@ export default class AgileBoardPage extends Vue {
   }
 
   get possibleSprints (): Array<FieldArray> {
-    let sprints = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
+    let sprints: Array<Partial<SprintOption>> = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
     if (sprints.length === 0) {
       return [{ value: null, label: 'No sprint' }]
-    } else sprints = [{ id: null, name: 'No sprint' }].concat(sprints)
+    } else sprints = [{ id: null, name: 'No sprint' } as Partial<SprintOption>, ...sprints]
 
-    return sprints.map(sprint => {
+    return sprints.map((sprint: Partial<SprintOption>) => {
       return {
-        value: sprint.id,
-        label: sprint.name
+        value: sprint.id ? sprint.id : null,
+        label: sprint.name ? sprint.name : ''
       }
     })
   }
 
-  updateSelectedSprint (selectedSprint: string): void {
+  updateSelectedSprint (selectedSprint: string | null): void {
     const { boardId } = this.$route.params
     this.$store.dispatch('board/updateProjectBoard', { projectId: boardId, selectedSprint })
   }
@@ -89,6 +89,9 @@ export default class AgileBoardPage extends Vue {
         max-width: rem(204);
         padding-left: rem(10);
         border: rem(1) solid white;
+        @media screen and (max-width: 880px) {
+          flex-direction: row;
+        }
 
         .card-field-array__value {
           color: $global__color--white;

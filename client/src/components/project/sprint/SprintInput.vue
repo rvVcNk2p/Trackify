@@ -102,7 +102,7 @@ import { SprintOption } from '@/store/types'
   }
 })
 export default class SprintInput extends Vue {
-  selectedSprint = {
+  selectedSprint: SprintOption = {
     id: null,
     name: '',
     from: null,

@@ -40,6 +40,10 @@ import DatePicker from 'vue2-datepicker'
 
 import TrTooltip from '@/components/utils/TrTooltip.vue'
 
+interface DatePickerHTMLElement extends HTMLElement {
+  closePopup (): void
+}
+
 @Component({
   components: {
     DatePicker,
@@ -78,7 +82,7 @@ export default class TrDatePicker extends Vue {
   isDisabledDate!: boolean
 
   @Ref('datepicker')
-  datePick!: DatePicker
+  datePick!: DatePickerHTMLElement
 
   get formatedVal (): string | null {
     if (this.value !== null) {
@@ -93,7 +97,7 @@ export default class TrDatePicker extends Vue {
     } else return false
   }
 
-  updateValue (event: Event): void {
+  updateValue (event: string): void {
     if (event && !this.isHour) this.datePick.closePopup()
     if (this.value && event) {
       const oldMin = this.value.split(' ')[1]

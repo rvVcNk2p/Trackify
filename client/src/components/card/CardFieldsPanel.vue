@@ -69,7 +69,7 @@ import CardFieldArray from '@/components/card/CardFieldArray.vue'
 import MembersInput from '@/components/member/MembersInput.vue'
 import MembersInputPanel from '@/components/member/MembersInputPanel.vue'
 import TrDatePicker from '@/components/utils/TrDatePicker.vue'
-import { FieldArray, Issue, ProjectMember } from '@/store/types'
+import { FieldArray, Issue, ProjectMember, SprintOption } from '@/store/types'
 
 @Component({
   components: {
@@ -121,15 +121,15 @@ export default class CardFieldsPanel extends Vue {
   }
 
   get possibleSprints (): Array<FieldArray> {
-    let sprints = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
+    let sprints: Array<Partial<SprintOption>> = this.$store.getters['project/getPossibleSprints'](this.$route.params.boardId)
     if (sprints.length === 0) {
       return [{ value: null, label: 'No sprint' }]
-    } else sprints = [{ id: null, name: 'No sprint' }].concat(sprints)
+    } else sprints = [{ id: null, name: 'No sprint' } as Partial<SprintOption>, ...sprints]
 
-    return sprints.map(sprint => {
+    return sprints.map((sprint: Partial<SprintOption>) => {
       return {
-        value: sprint.id,
-        label: sprint.name
+        value: sprint.id ? sprint.id : null,
+        label: sprint.name ? sprint.name : ''
       }
     })
   }
