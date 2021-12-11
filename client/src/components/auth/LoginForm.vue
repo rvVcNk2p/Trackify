@@ -10,7 +10,7 @@
       <tr-input
         v-model="credentials.password"
         class="login-form__input"
-        placeholder="e.g. 1A-********"
+        placeholder="********"
         type="password"
         label="Password"
       />

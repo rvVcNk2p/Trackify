@@ -15,6 +15,10 @@ const BoardSchema = new mongoose.Schema({
       ref: 'ticket'
     }
   ],
+  selectedSprint: {
+    type: String,
+    default: 'current'
+  },
   backlog: {
     type: Array,
     default: []

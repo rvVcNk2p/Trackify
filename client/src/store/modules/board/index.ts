@@ -5,7 +5,7 @@ import { Module } from 'vuex'
 import { FieldArray, ProjectBoard } from '@/store/types'
 
 export type BoardState = {
-  projectBoard: ProjectBoard | null,
+  projectBoard: ProjectBoard | null
 }
 
 export default function createProjectModule<RootState> (namespaced: boolean): Module<BoardState, RootState> {
@@ -18,8 +18,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     },
     getters: {
       getProjectBoard: (state): ProjectBoard | null => {
-        if (state.projectBoard) return state.projectBoard
-        else return null
+        if (state.projectBoard) {
+          return state.projectBoard
+        } else return null
       },
       getPossibleStates: (state): Array<FieldArray> | null => {
         if (state.projectBoard) {
@@ -54,6 +55,11 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     actions: {
       async fetchProjectBoard ({ commit }, projectId) {
         const res = await axios.get(`/api/board/${projectId}`)
+        commit('setProjectBoard', res.data.board)
+      },
+      async updateProjectBoard ({ commit }, payload) {
+        const { projectId, selectedSprint } = payload
+        const res = await axios.put(`/api/board/${projectId}`, { selectedSprint })
         commit('setProjectBoard', res.data.board)
       },
       async createBoardColumn ({ commit, state }, payload) {

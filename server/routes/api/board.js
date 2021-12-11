@@ -10,7 +10,13 @@ router.get('/:projectId', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add boards
   try {
     const { projectId } = req.params;
-    const board = await Board.findOne({ projectId }).populate({ path: 'issues', populate: { path: 'createdBy updatedBy assignee', select: '-password -date -__v' } });
+    const board = await Board.findOne({ projectId })
+      .populate({ path: 'issues', populate: { path: 'createdBy updatedBy assignee', select: '-password -date -__v' } });
+
+    // TODO - Use aggregate to get all issues for a sprint
+    if (board && board.selectedSprint !== 'current') {
+      board.issues = board.issues.filter(issue => issue.sprint === board.selectedSprint)
+    }
     return res.status(200).json({ board, msg: 'Board found!' });
   } catch (err) {
     console.log(err.message);
@@ -27,6 +33,27 @@ router.post('/', async (req, res) => {
     const { projectId } = req.body;
     const newBoard = await Board.create({ projectId });
     return res.status(201).json({ newBoard, msg: 'Board created!' });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route  PUT api/board/:boardId
+// @desc   Update board by ID
+// @access Private
+router.put('/:projectId', async (req, res) => {
+  // auth => Add auth, to make sure only logged in users can add boards
+  try {
+    const { projectId } = req.params;
+    const { selectedSprint } = req.body;
+    
+    const updatedBoard = await Board.findOneAndUpdate(
+      { projectId },
+      { selectedSprint },
+      { new: true}).populate({ path: 'issues', populate: { path: 'createdBy updatedBy assignee', select: '-password -date -__v' } });
+  
+    return res.status(201).json({ board: updatedBoard, msg: 'Board updated!' });
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');

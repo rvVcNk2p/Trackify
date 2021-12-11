@@ -49,12 +49,14 @@
         <tr-date-picker
           v-model="selectedSprint.from"
           :is-hour="false"
+          :is-disabled-date="false"
           label="Sprint starting date:"
           class="sprint-input__from"
         />
         <tr-date-picker
           v-model="selectedSprint.to"
           :is-hour="false"
+          :is-disabled-date="false"
           label="Sprint ending date:"
           class="sprint-input__to"
         />
@@ -85,10 +87,10 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Component, Model, Vue } from 'vue-property-decorator'
 
-import MaterialIcon from '@/components/utils/MaterialIcon'
-import TrButton from '@/components/utils/TrButton'
-import TrDatePicker from '@/components/utils/TrDatePicker'
-import TrInput from '@/components/utils/TrInput'
+import MaterialIcon from '@/components/utils/MaterialIcon.vue'
+import TrButton from '@/components/utils/TrButton.vue'
+import TrDatePicker from '@/components/utils/TrDatePicker.vue'
+import TrInput from '@/components/utils/TrInput.vue'
 import { SprintOption } from '@/store/types'
 
 @Component({

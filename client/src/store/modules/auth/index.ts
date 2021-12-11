@@ -58,7 +58,7 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
             name: 'agileBoards',
             label: 'Agile Board',
             icon: 'developer_board',
-            params: { boardId: state.selectedBoard }
+            params: { boardId: state.selectedBoard, selectedSprint: 'current' }
           })
         }
         if (state.user) {

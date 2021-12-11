@@ -71,6 +71,12 @@ export default class TrDatePicker extends Vue {
   })
   isHour!: boolean
 
+  @Prop({
+    type: Boolean,
+    default: true
+  })
+  isDisabledDate!: boolean
+
   @Ref('datepicker')
   datePick!: DatePicker
 
@@ -81,8 +87,10 @@ export default class TrDatePicker extends Vue {
   }
 
   disabledDate (date: Date): boolean {
-    const yesterday = moment().subtract(1, 'days')
-    return moment(date) < yesterday
+    if (this.isDisabledDate) {
+      const yesterday = moment().subtract(1, 'days')
+      return moment(date) < yesterday
+    } else return false
   }
 
   updateValue (event: Event): void {

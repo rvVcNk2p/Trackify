@@ -40,7 +40,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
         } else return null
       },
       getPossibleSprints: (state) => (projectId: string) => {
-        return state.projects.filter(project => project._id === projectId)[0].availableSprints
+        const selectedProject = state.projects.filter(project => project._id === projectId)[0]
+        if (selectedProject && selectedProject.availableSprints) return selectedProject.availableSprints
+        else return []
       }
     },
     mutations: {

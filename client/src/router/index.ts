@@ -37,7 +37,7 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/agiles/:boardId/current',
+    path: '/agiles/:boardId/:selectedSprint',
     name: 'agileBoards',
     component: () => import(/* webpackChunkName: "agile-board" */ '../views/AgileBoardPage.vue'),
     meta: {

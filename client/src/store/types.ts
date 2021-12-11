@@ -70,6 +70,7 @@ export interface ProjectBoard {
   _id: string | null,
   projectId: string | null,
   backlog: Array<Issue> | null,
+  selectedSprint: string | null,
   availableColumns: Array<AvailableColumn>,
   issues: Array<Issue>,
 }
