@@ -1,5 +1,8 @@
 <template>
-  <div class="agile-board-column">
+  <div
+    v-if="isHide"
+    class="agile-board-column"
+  >
     <!-- Outsource as an AgileBoardHeader component -->
     <div
       class="agile-board-header"
@@ -95,6 +98,16 @@ export default class AgileBoardColumn extends Vue {
 
   get orderedIssues (): Array<GroupedIssues> {
     return this.column.sort((a, b) => a.order > b.order ? 1 : -1)
+  }
+
+  get backlogVisibility (): boolean {
+    return this.$store.getters['board/getBacklogVisibility']
+  }
+
+  get isHide (): boolean {
+    if (this.header.state === 'backlog') {
+      return this.backlogVisibility
+    } else return true
   }
 
   onDrop (evt: DragEvent): void {

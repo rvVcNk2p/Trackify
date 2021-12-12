@@ -5,7 +5,8 @@ import { Module } from 'vuex'
 import { FieldArray, ProjectBoard } from '@/store/types'
 
 export type BoardState = {
-  projectBoard: ProjectBoard | null
+  projectBoard: ProjectBoard | null,
+  isBacklogVisible: boolean
 }
 
 export default function createProjectModule<RootState> (namespaced: boolean): Module<BoardState, RootState> {
@@ -13,7 +14,8 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     namespaced,
     state () {
       return {
-        projectBoard: null
+        projectBoard: null,
+        isBacklogVisible: true
       }
     },
     getters: {
@@ -31,6 +33,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
             }
           })
         } else return null
+      },
+      getBacklogVisibility: (state): boolean => {
+        return state.isBacklogVisible
       }
     },
     mutations: {
@@ -50,6 +55,9 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
       },
       updateColumns (state, availableColumns) {
         state.projectBoard && Vue.set(state.projectBoard, 'availableColumns', availableColumns)
+      },
+      setBacklogVisibility (state, payload) {
+        Vue.set(state, 'isBacklogVisible', payload)
       }
     },
     actions: {

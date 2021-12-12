@@ -2,6 +2,12 @@
   <div class="agile-board-page">
     <h1>Agile Board</h1>
     <div class="agile-board-page__sprint-selector">
+      <div
+        class="agile-board-page__backlog-btn"
+        @click="setBacklogVisibility"
+      >
+        <material-icon :icon=" backlogVisibility ? 'visibility_off' : 'visibility' " />
+      </div>
       <card-field-array
         v-model="selectedSprint"
         title="sprint"
@@ -20,12 +26,14 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 
 import AgileBoardTable from '@/components/board/AgileBoardTable.vue'
 import CardFieldArray from '@/components/card/CardFieldArray.vue'
+import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import { FieldArray, ProjectBoard, SprintOption } from '@/store/types'
 
 @Component({
   components: {
     AgileBoardTable,
-    CardFieldArray
+    CardFieldArray,
+    MaterialIcon
   }
 })
 export default class AgileBoardPage extends Vue {
@@ -43,6 +51,14 @@ export default class AgileBoardPage extends Vue {
 
   get getProjectboard (): ProjectBoard {
     return this.$store.getters['board/getProjectBoard']
+  }
+
+  get backlogVisibility (): boolean {
+    return this.$store.getters['board/getBacklogVisibility']
+  }
+
+  setBacklogVisibility (): void {
+    this.$store.commit('board/setBacklogVisibility', !this.backlogVisibility)
   }
 
   @Watch('getProjectboard')
@@ -83,14 +99,32 @@ export default class AgileBoardPage extends Vue {
 <style lang="scss">
   .agile-board-page {
     .agile-board-page__sprint-selector {
+      display: flex;
+      align-items: center;
+      width: rem(250);
       margin-left: rem(10);
 
+      .agile-board-page__backlog-btn {
+        display: flex;
+        margin-right: rem(5);
+        padding: rem(8) rem(5) rem(9) rem(5);
+        border: rem(1) solid $global__color--white;
+        cursor: pointer;
+      }
+
       .card-field-array {
-        max-width: rem(204);
+        min-width: rem(164);
         padding-left: rem(10);
         border: rem(1) solid white;
-        @media screen and (max-width: 880px) {
+        @media screen and (max-width: $global__breakpoint--mobile) {
           flex-direction: row;
+        }
+
+        .card-field-array__title {
+          margin-bottom: 0;
+          @media screen and (max-width: $global__breakpoint--mobile) {
+            margin-bottom: 0;
+          }
         }
 
         .card-field-array__value {
