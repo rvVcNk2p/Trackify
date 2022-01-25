@@ -14,10 +14,16 @@
         :options="possibleSprints"
       />
     </div>
-    <agile-board-table
-      v-if="getProjectboard"
-      :board="getProjectboard"
-    />
+
+    <div v-if="!getIsLoading">
+      <agile-board-table
+        v-if="getProjectboard"
+        :board="getProjectboard"
+      />
+    </div>
+    <div v-else>
+      <LoadingSpinner />
+    </div>
   </div>
 </template>
 
@@ -26,6 +32,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 
 import AgileBoardTable from '@/components/board/AgileBoardTable.vue'
 import CardFieldArray from '@/components/card/CardFieldArray.vue'
+import LoadingSpinner from '@/components/utils/loading/LoadingSpinner.vue'
 import MaterialIcon from '@/components/utils/MaterialIcon.vue'
 import { FieldArray, ProjectBoard, SprintOption } from '@/store/types'
 
@@ -33,7 +40,8 @@ import { FieldArray, ProjectBoard, SprintOption } from '@/store/types'
   components: {
     AgileBoardTable,
     CardFieldArray,
-    MaterialIcon
+    MaterialIcon,
+    LoadingSpinner
   }
 })
 export default class AgileBoardPage extends Vue {
@@ -51,6 +59,10 @@ export default class AgileBoardPage extends Vue {
 
   get getProjectboard (): ProjectBoard {
     return this.$store.getters['board/getProjectBoard']
+  }
+
+  get getIsLoading (): boolean {
+    return this.$store.getters['loading/getLoadingState']
   }
 
   get backlogVisibility (): boolean {

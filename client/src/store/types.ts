@@ -82,8 +82,13 @@ export interface FieldArray {
 export interface GroupedIssues {
   [key: string]: Array<Issue>
 }
+
 export interface Notification {
   id: string,
   type: string,
   message: string,
+}
+
+export interface Loading {
+  isLoading: boolean,
 }

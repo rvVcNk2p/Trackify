@@ -62,7 +62,10 @@ export default function createProjectModule<RootState> (namespaced: boolean): Mo
     },
     actions: {
       async fetchProjectBoard ({ commit }, projectId) {
+        commit('loading/setLoadingState', true, { root: true })
         const res = await axios.get(`/api/board/${projectId}`)
+        commit('loading/setLoadingState', false, { root: true })
+
         commit('setProjectBoard', res.data.board)
       },
       async updateProjectBoard ({ commit }, payload) {

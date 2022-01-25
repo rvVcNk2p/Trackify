@@ -3,6 +3,7 @@ import Vuex, { Store } from 'vuex'
 
 import auth from './modules/auth'
 import board from './modules/board'
+import loading from './modules/loading'
 import notification from './modules/notification'
 import project from './modules/project'
 import { FieldArray } from './types'
@@ -48,10 +49,11 @@ export function createStore (): StoreInstance {
     },
     actions: {},
     modules: {
-      project: project<RootState>(true),
-      board: board<RootState>(true),
       auth: auth<RootState>(true),
-      notification: notification<RootState>(true)
+      board: board<RootState>(true),
+      loading: loading<RootState>(true),
+      notification: notification<RootState>(true),
+      project: project<RootState>(true)
     }
   })
 }
