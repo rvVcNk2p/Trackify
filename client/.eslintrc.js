@@ -1,3 +1,9 @@
+require('@rushstack/eslint-patch/modern-module-resolution')
+
+// The core indent rule misreads decorated class properties (@Prop, @Watch) parsed by
+// @typescript-eslint v5+, so those nodes are skipped on top of the standard ignores.
+const [indentLevel, indentSize, indentOptions] = require('eslint-config-standard').rules.indent
+
 module.exports = {
   root: true,
   env: {
@@ -22,7 +28,11 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/no-var-requires': 0,
     'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error'
+    'simple-import-sort/exports': 'error',
+    indent: [indentLevel, indentSize, {
+      ...indentOptions,
+      ignoredNodes: [...indentOptions.ignoredNodes, 'PropertyDefinition[decorators.length>0]']
+    }]
   },
   overrides: [
     {

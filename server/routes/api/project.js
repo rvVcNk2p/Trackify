@@ -1,5 +1,5 @@
 const express = require('express');
-const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
 const router = express.Router();
 
 // const auth = require('../../middleware/auth');
@@ -26,9 +26,9 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   // auth => Add auth, to make sure only logged in users can add projects
   try {
-    const project = {...req.body, members: req.body.members.map(member => ObjectId(member._id))}
+    const project = {...req.body, members: req.body.members.map(member => new mongoose.Types.ObjectId(member._id))}
     let newProject = await Project.create({ ...utils.removeEmpty(project) })
-    newProject = await newProject.populate('members', '-password -date -__v').execPopulate()
+    newProject = await newProject.populate('members', '-password -date -__v')
     return res.status(201).json({ newProject, msg: 'Project created!' });
   } catch (err) {
     console.log(err.message);

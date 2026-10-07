@@ -2,7 +2,7 @@
   <div class="tr-avatar">
     <img
       class="tr-avatar__img"
-      :src="member && member.avatar ? member.avatar : require('@/assets/images/unassigned_user.jpeg')"
+      :src="member && member.avatar ? member.avatar : unassignedUserImg"
       alt=""
     >
   </div>
@@ -11,6 +11,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
+import unassignedUserImg from '@/assets/images/unassigned_user.jpeg'
 import { ProjectMember } from '@/store/types'
 
 @Component
@@ -19,6 +20,8 @@ export default class TrAvatar extends Vue {
     type: Object as () => ProjectMember
   })
   readonly member!: ProjectMember | null
+
+  unassignedUserImg = unassignedUserImg
 }
 </script>
 
