@@ -1,6 +1,10 @@
 const express = require('express');
+const config = require('config');
 const connectDB = require('./config/db');
 const path = require('path');
+
+// Fail at startup instead of on the first login when JWT_SECRET is missing (see .env.example)
+config.get('jwtSecret');
 
 const app = express();
 

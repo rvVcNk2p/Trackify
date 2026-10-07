@@ -4,13 +4,16 @@
   "description": "Issue tracking system like JIRA and YouTrack.",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "node --watch server",
+    "start": "node --env-file-if-exists=.env server",
+    "server": "node --watch --env-file-if-exists=.env server",
     "client": "npm run dev --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Kussy Leo",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.12"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "config": "^3.3.12",
