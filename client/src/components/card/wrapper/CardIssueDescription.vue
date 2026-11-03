@@ -8,7 +8,7 @@
       <div
         v-show="!isEditing"
         class="ql-editor card-issue-description__container"
-        v-html="description"
+        v-html="safeDescription"
       />
     </div>
     <div
@@ -45,6 +45,7 @@
 </template>
 
 <script lang="ts">
+import DOMPurify from 'dompurify'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { VueEditor } from 'vue2-editor'
 
@@ -82,10 +83,15 @@ export default class CardIssueDescription extends Vue {
   defaultTitle: string | null = null
   defaultDescription: string | null = null
 
+  // stored HTML reaches v-html and the Quill editor (innerHTML), so strip scripts/handlers first
+  get safeDescription (): string {
+    return DOMPurify.sanitize(this.description ?? '')
+  }
+
   @Watch('isEditing')
   setEditableInputs ():void {
     this.defaultTitle = this.title
-    this.defaultDescription = this.description
+    this.defaultDescription = this.safeDescription
   }
 
   updateData (val: boolean):void {

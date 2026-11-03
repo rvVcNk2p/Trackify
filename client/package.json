@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.20.0",
+    "dompurify": "^3.4.17",
     "moment": "^2.31.0",
     "portal-vue": "^2.1.7",
     "resize-observer-polyfill": "^1.5.1",
